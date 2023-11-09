@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TestController {
   @GetMapping("/")
   public String hello() {
-    return "index_tm";
+    return "index";
+  }
+  @GetMapping("/123")
+  public String hello2() {
+    return "login";
   }
 }
