@@ -108,21 +108,21 @@ pageEncoding="UTF-8"%>
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="-none d-md-inline mt-auto" style="margin-bottom: 120px">
           <div class="d-flex justify-content-center">
-            <a href="/">
-              <div
-                style="
-                  width: 100px;
-                  height: 40px;
-                  border-radius: 30px;
-                  border: 1px solid #fbc91b;
-                  box-shadow: 1px 1px rgba(0, 0, 0, 0.2);
-                "
-                class="bg-light d-flex align-items-center justify-content-center"
-              >
-                <i class="fas fa-cog"></i>
-                <span class="pl-3">설정</span>
-              </div>
-            </a>
+            <div
+              id="set-alram"
+              style="
+                width: 120px;
+                height: 40px;
+                border-radius: 30px;
+                border: 1px solid #fbc91b;
+                box-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+                color: #555;
+              "
+              class="bg-light d-flex align-items-center justify-content-center btn"
+            >
+              <i class="fas fa-cog"></i>
+              <span class="pl-3">알람설정</span>
+            </div>
           </div>
         </div>
       </ul>
@@ -163,45 +163,51 @@ pageEncoding="UTF-8"%>
       <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
+    <!-- remove Modal -->
     <div
       class="modal fade"
-      id="logoutModal"
+      id="remove-modal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="exampleModalLongTitle"
       aria-hidden="true"
     >
-      <div class="modal-dialog" role="document">
+      <div
+        class="modal-dialog"
+        style="margin-top: 300px; min-height: 300px; min-width: 600px"
+        role="document"
+      >
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <h3 class="modal-title ml-4 my-2" id="exampleModalLongTitle">
+              알람 시간 변경
+            </h3>
             <button
-              class="close"
               type="button"
+              class="close"
               data-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">×</span>
+              <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
+
+          <div class="modal-body ml-4 my-2">
+            <h4>이제 여기에 시간 설정</h4>
           </div>
+
           <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
+            <div
               type="button"
+              class="btn btn-secondary px-4 py-2"
               data-dismiss="modal"
             >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+              닫기
+            </div>
           </div>
         </div>
       </div>
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="../../resources/vendor/jquery/jquery.min.js"></script>
     <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -220,10 +226,7 @@ pageEncoding="UTF-8"%>
     <script src="../../resources/img/jsdemo/chart-pie-demo.js"></script>
     <!-- calendar script -->
     <!-- calendar script -->
-    <script
-      src="../../resources/vendor/calendar/jquery-1.10.2.js"
-      type="text/javascript"
-    ></script>
+
     <script
       src="../../resources/vendor/calendar/jquery-ui.custom.min.js"
       type="text/javascript"
@@ -381,6 +384,14 @@ pageEncoding="UTF-8"%>
               className: "success",
             },
           ],
+        });
+      });
+    </script>
+    <!-- 알람 모달 -->
+    <script>
+      $(function () {
+        $("#set-alram").click(function () {
+          $("#remove-modal").modal("show");
         });
       });
     </script>
