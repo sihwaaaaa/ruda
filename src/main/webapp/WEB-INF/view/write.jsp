@@ -157,9 +157,13 @@ pageEncoding="UTF-8"%>
                       <div class="col mr-2">
                         <div
                           class="text-s font-weight-bold text-uppercase"
-                          style="border-bottom: 1px solid #ccc; color: #666"
+                          style="
+                            height: 50px;
+                            border-bottom: 1px solid #ccc;
+                            color: #666;
+                          "
                         >
-                          <h6 class="mb-3">날씨</h6>
+                          <h6 class="py-3">날씨</h6>
                         </div>
                         <div
                           class="mt-5 d-flex justify-content-center px-5 write-button"
@@ -177,19 +181,23 @@ pageEncoding="UTF-8"%>
                       <div class="col mr-2">
                         <div
                           class="text-s font-weight-bold text-uppercase"
-                          style="border-bottom: 1px solid #ccc; color: #666"
+                          style="
+                            height: 50px;
+                            border-bottom: 1px solid #ccc;
+                            color: #666;
+                          "
                         >
-                          <h6 class="mb-3">감정</h6>
+                          <h6 class="py-3">감정</h6>
                         </div>
                         <div
                           class="mt-5 d-flex justify-content-center px-5 write-button"
                         >
-                          <i class="fas fa-sun fa-3x mx-4"></i>
-                          <i class="fas fa-cloud fa-3x mx-4"></i>
-                          <i class="fas fa-cloud-rain fa-3x mx-4"></i>
-                          <i class="fas fa-snowflake fa-3x mx-4"></i>
-                          <i class="fas fa-bolt fa-3x mx-4"></i>
-                          <i class="fas fa-wind fa-3x mx-4"></i>
+                          <i class="far fa-laugh fa-3x mx-4"></i>
+                          <i class="far fa-laugh-squint fa-3x mx-4"></i>
+                          <i class="far fa-meh fa-3x mx-4"></i>
+                          <i class="far fa-dizzy fa-3x mx-4"></i>
+                          <i class="far fa-angry fa-3x mx-4"></i>
+                          <i class="far fa-sad-tear fa-3x mx-4"></i>
                         </div>
                       </div>
                     </div>
@@ -197,10 +205,20 @@ pageEncoding="UTF-8"%>
                     <div class="row no-gutters align-items-center mt-5">
                       <div class="col mr-2">
                         <div
-                          class="text-s font-weight-bold text-uppercase"
-                          style="border-bottom: 1px solid #ccc; color: #666"
+                          class="text-s font-weight-bold text-uppercase d-flex"
+                          style="
+                            height: 50px;
+                            border-bottom: 1px solid #ccc;
+                            color: #666;
+                          "
                         >
-                          <h6 class="mb-3">루틴 키워드</h6>
+                          <h6 class="my-3">루틴 키워드</h6>
+                          <div class="ml-auto mx-aut btn btn-light btn-circle">
+                            <i
+                              class="fas fa-palette fa-lg"
+                              style="color: #4271ff"
+                            ></i>
+                          </div>
                         </div>
                         <div class="mt-5 px-5">
                           <textarea name="content" id="editor"></textarea>
