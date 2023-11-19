@@ -127,20 +127,99 @@ pageEncoding="UTF-8"%>
         </div>
       </ul>
       <!-- End of Sidebar -->
-      <!-- Content Wrapper -->
-      <div id="content-wrapper" class="d-flex flex-column">
-        <!-- Main Content -->
-        <div id="content" class="bg-white">
-          <!-- Begin Page Content -->
-          <div class="container-fluid">
-            <!-- calendar -->
-            <div id="wrap">
-              <div class="card shadow" id="calendar"></div>
 
-              <div style="clear: both"></div>
-            </div>
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column bg-white">
+        <!-- Main Content -->
+        <div id="content" style="margin: 10px 160px">
+          <div class="container-fluid">
+            <form class="mt-5">
+              <div class="d-flex justify-content-center">
+                <div
+                  class="card border-bottom-warning shadow h-100 d-flex align-items-center"
+                  style="width: 1000px"
+                >
+                  <div class="card-body p-5" style="width: 850px">
+                    <div class="d-flex justify-content-center mt-4">
+                      <h2
+                        style="
+                          width: 1000px;
+                          font-size: 20px;
+                          font-weight: 600;
+                          color: #444;
+                        "
+                      >
+                        <span style="color: #fbc91b">루</span>틴
+                        <span style="color: #fbc91b"> 다</span>이어리 작성하기
+                      </h2>
+                    </div>
+                    <div class="row no-gutters align-items-center mt-5">
+                      <div class="col mr-2">
+                        <div
+                          class="text-s font-weight-bold text-uppercase"
+                          style="border-bottom: 1px solid #ccc; color: #666"
+                        >
+                          <h6 class="mb-3">날씨</h6>
+                        </div>
+                        <div
+                          class="mt-5 d-flex justify-content-center px-5 write-button"
+                        >
+                          <i class="fas fa-sun fa-3x mx-4"></i>
+                          <i class="fas fa-cloud fa-3x mx-4"></i>
+                          <i class="fas fa-cloud-rain fa-3x mx-4"></i>
+                          <i class="fas fa-snowflake fa-3x mx-4"></i>
+                          <i class="fas fa-bolt fa-3x mx-4"></i>
+                          <i class="fas fa-wind fa-3x mx-4"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row no-gutters align-items-center mt-5">
+                      <div class="col mr-2">
+                        <div
+                          class="text-s font-weight-bold text-uppercase"
+                          style="border-bottom: 1px solid #ccc; color: #666"
+                        >
+                          <h6 class="mb-3">감정</h6>
+                        </div>
+                        <div
+                          class="mt-5 d-flex justify-content-center px-5 write-button"
+                        >
+                          <i class="fas fa-sun fa-3x mx-4"></i>
+                          <i class="fas fa-cloud fa-3x mx-4"></i>
+                          <i class="fas fa-cloud-rain fa-3x mx-4"></i>
+                          <i class="fas fa-snowflake fa-3x mx-4"></i>
+                          <i class="fas fa-bolt fa-3x mx-4"></i>
+                          <i class="fas fa-wind fa-3x mx-4"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row no-gutters align-items-center mt-5">
+                      <div class="col mr-2">
+                        <div
+                          class="text-s font-weight-bold text-uppercase"
+                          style="border-bottom: 1px solid #ccc; color: #666"
+                        >
+                          <h6 class="mb-3">루틴 키워드</h6>
+                        </div>
+                        <div class="mt-5 px-5">
+                          <textarea name="content" id="editor"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="my-5 d-flex justify-content-center">
+                      <div class="btn btn-danger mx-5" style="width: 100px">
+                        취소
+                      </div>
+                      <div class="btn btn-warning mx-5" style="width: 100px">
+                        작성하기
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
-          <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
 
@@ -201,6 +280,10 @@ pageEncoding="UTF-8"%>
         </div>
       </div>
     </div>
+    <script src="../../resources/js/ckeditor.js"></script>
+    <script>
+      ClassicEditor.create(document.querySelector("#editor"), {});
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../../resources/vendor/jquery/jquery.min.js"></script>
@@ -232,157 +315,5 @@ pageEncoding="UTF-8"%>
       src="../../resources/vendor/calendar/fullcalendar.js"
       type="text/javascript"
     ></script>
-
-    <script>
-      $(document).ready(function () {
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-
-        /*  className colors
-  
-      className: default(transparent), important(red), chill(pink), success(green), info(blue)
-  
-      */
-
-        /* initialize the external events
-      -----------------------------------------------------------------*/
-
-        $("#external-events div.external-event").each(function () {
-          // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-          // it doesn't need to have a start or end
-          var eventObject = {
-            title: $.trim($(this).text()), // use the element's text as the event title
-          };
-
-          // store the Event Object in the DOM element so we can get to it later
-          $(this).data("eventObject", eventObject);
-
-          // make the event draggable using jQuery UI
-          $(this).draggable({
-            zIndex: 999,
-            revert: true, // will cause the event to go back to its
-            revertDuration: 0, //  original position after the drag
-          });
-        });
-
-        /* initialize the calendar
-      -----------------------------------------------------------------*/
-
-        var calendar = $("#calendar").fullCalendar({
-          header: {
-            left: "title",
-            right: "prev,next today",
-          },
-          editable: true,
-          firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
-          selectable: true,
-          defaultView: "month",
-
-          axisFormat: "h:mm",
-          columnFormat: {
-            month: "ddd", // Mon
-            week: "ddd d", // Mon 7
-            day: "dddd M/d", // Monday 9/7
-            agendaDay: "dddd d",
-          },
-          titleFormat: {
-            month: "yyyy년 MM월", // September 2009
-            week: "MMMM yyyy", // September 2009
-            day: "MMMM yyyy", // Tuesday, Sep 8, 2009
-          },
-          allDaySlot: false,
-          selectHelper: true,
-          select: function (start, end, allDay) {
-            var title = prompt("Event Title:");
-            if (title) {
-              calendar.fullCalendar(
-                "renderEvent",
-                {
-                  title: title,
-                  start: start,
-                  end: end,
-                  allDay: allDay,
-                },
-                true // make the event "stick"
-              );
-            }
-            calendar.fullCalendar("unselect");
-          },
-          droppable: true, // this allows things to be dropped onto the calendar !!!
-          drop: function (date, allDay) {
-            // this function is called when something is dropped
-
-            // retrieve the dropped element's stored Event Object
-            var originalEventObject = $(this).data("eventObject");
-
-            // we need to copy it, so that multiple events don't have a reference to the same object
-            var copiedEventObject = $.extend({}, originalEventObject);
-
-            // assign it the date that was reported
-            copiedEventObject.start = date;
-            copiedEventObject.allDay = allDay;
-
-            // render the event on the calendar
-            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-            $("#calendar").fullCalendar("renderEvent", copiedEventObject, true);
-
-            // is the "remove after drop" checkbox checked?
-            if ($("#drop-remove").is(":checked")) {
-              // if so, remove the element from the "Draggable Events" list
-              $(this).remove();
-            }
-          },
-
-          events: [
-            {
-              title: "All Day Event",
-              start: new Date(y, m, 1),
-            },
-            {
-              id: 999,
-              title: "Repeating Event",
-              start: new Date(y, m, d - 3, 16, 0),
-              allDay: false,
-              className: "info",
-            },
-            {
-              id: 999,
-              title: "Repeating Event",
-              start: new Date(y, m, d + 4, 16, 0),
-              allDay: false,
-              className: "info",
-            },
-            {
-              title: "Meeting",
-              start: new Date(y, m, d, 10, 30),
-              allDay: false,
-              className: "important",
-            },
-            {
-              title: "Lunch",
-              start: new Date(y, m, d, 12, 0),
-              end: new Date(y, m, d, 14, 0),
-              allDay: false,
-              className: "important",
-            },
-            {
-              title: "Birthday Party",
-              start: new Date(y, m, d + 1, 19, 0),
-              end: new Date(y, m, d + 1, 22, 30),
-              allDay: false,
-            },
-            {
-              title: "Click for Google",
-              start: new Date(y, m, 28),
-              end: new Date(y, m, 29),
-              url: "http://google.com/",
-              className: "success",
-            },
-          ],
-        });
-      });
-    </script>
   </body>
 </html>

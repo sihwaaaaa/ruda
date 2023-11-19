@@ -1,5 +1,7 @@
 package co.poetrypainting.ruda.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +14,17 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class TestController {
+
+	Logger logger = LoggerFactory.getLogger(TestController.class);
   @GetMapping("/")
   public String hello() {
-  	log.info("hello");
+  	logger.info("hello");
     return "index";
+  }
+  @GetMapping("/write")
+  public String Write() {
+  	logger.info("hello");
+    return "write";
   }
  @Autowired
     public KakaoLoginServiceImpl iKakaoS;
@@ -27,11 +36,11 @@ public class TestController {
 	public ModelAndView kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Throwable {
 
 		// 1번
-		log.info("{code:}",code);
+		logger.info("{code:}",code);
 		
 		// 2번
 		String access_Token = iKakaoS.getAccessToken(code);
-		log.warn("###access_Token#### : " + access_Token);
+		// log.warn("###access_Token#### : " + access_Token);
 		// 위의 access_Token 받는 걸 확인한 후에 밑에 진행
 		
 		// 3번

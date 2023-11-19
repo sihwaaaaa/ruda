@@ -16,6 +16,14 @@
   font-weight: 400;
   font-style: normal;
 }
+.ck-editor__editable { height: 200px; }
+.write-button i:hover{
+color:  #fbc91b;
+cursor: pointer;
+}
+
+
+
 :root {
   --blue: #4e73df;
   --indigo: #6610f2;
