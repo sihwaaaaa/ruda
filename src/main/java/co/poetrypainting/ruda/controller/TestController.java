@@ -21,11 +21,7 @@ public class TestController {
   	logger.info("hello");
     return "index";
   }
-  @GetMapping("/write")
-  public String Write() {
-  	logger.info("hello");
-    return "write";
-  }
+ 
  @Autowired
     public KakaoLoginServiceImpl iKakaoS;
    
