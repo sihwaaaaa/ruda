@@ -16,13 +16,35 @@
   font-weight: 400;
   font-style: normal;
 }
-.ck-editor__editable { height: 200px; }
-.write-button i:hover{
-color:  #fbc91b;
-cursor: pointer;
+.ck-editor__editable {
+  height: 200px;
+}
+.write-button i:hover {
+  color: #fbc91b;
+  cursor: pointer;
 }
 
+#color-group {
+  display: flex;
+  flex-wrap: wrap;
+  float: right;
+  display: none;
+  min-height: 50px;
 
+  animation: fadeEffect 0.4s ease-in-out;
+}
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.color-chip:hover {
+  transform: scale(1.2);
+}
 
 :root {
   --blue: #4e73df;
@@ -9941,7 +9963,6 @@ a:focus {
   background: url(../ruda_img/logo.png);
   background-position: center;
   background-repeat: no-repeat;
-  
 }
 .bg-register-image {
   background: url(https://source.unsplash.com/Mv9hjnEUHR4/600x800);

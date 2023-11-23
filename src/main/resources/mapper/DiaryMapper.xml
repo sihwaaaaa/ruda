@@ -11,4 +11,10 @@
     <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.ColorDto">
 		select * from tbl_color where colorNo > 0
 	</select>
+    <select id="selectByPrimaryKey" resultType="co.poetrypainting.ruda.domain.DiaryVo">
+		select * from tbl_diary where diaryNo = #{diaryNo}
+	</select>
+    <select id="getColorCode">
+		select colorCode from tbl_color where colorNo = #{getColorNo}
+	</select>
 </mapper>

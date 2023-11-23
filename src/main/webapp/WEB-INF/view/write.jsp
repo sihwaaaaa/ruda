@@ -1,6 +1,8 @@
-<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -58,6 +60,7 @@ pageEncoding="UTF-8"%>
         <form
           class="d-none d-sm-inline-block form-inline mx-5 my-5 mw-100 navbar-search"
         >
+          >
           <div
             class="input-group"
             style="box-shadow: 1px 1px rgba(0, 0, 0, 0.2); border-radius: 6px"
@@ -132,7 +135,7 @@ pageEncoding="UTF-8"%>
         <!-- Main Content -->
         <div id="content" style="margin: 10px 160px">
           <div class="container-fluid">
-            <form class="mt-5">
+            <form class="mt-5" method="post" id="diaryform">
               <div class="d-flex justify-content-center">
                 <div
                   class="card border-bottom-warning shadow h-100 d-flex align-items-center"
@@ -166,14 +169,21 @@ pageEncoding="UTF-8"%>
                         </div>
                         <div
                           class="mt-5 d-flex justify-content-center px-5 write-button"
+                          id="weather-group"
                         >
-                          <i class="fas fa-sun fa-3x mx-4"></i>
-                          <i class="fas fa-cloud fa-3x mx-4"></i>
-                          <i class="fas fa-cloud-rain fa-3x mx-4"></i>
-                          <i class="fas fa-snowflake fa-3x mx-4"></i>
-                          <i class="fas fa-bolt fa-3x mx-4"></i>
-                          <i class="fas fa-wind fa-3x mx-4"></i>
+                          <i class="fas fa-sun fa-3x mx-4" id="sun"></i>
+                          <i class="fas fa-cloud fa-3x mx-4" id="cloud"></i>
+                          <i class="fas fa-cloud-rain fa-3x mx-4" id="rain"></i>
+                          <i class="fas fa-snowflake fa-3x mx-4" id="snow"></i>
+                          <i class="fas fa-bolt fa-3x mx-4" id="bolt"></i>
+                          <i class="fas fa-wind fa-3x mx-4" id="wind"></i>
                         </div>
+                        <input
+                          type="hidden"
+                          name="weather"
+                          id="weatherInput"
+                          value=""
+                        />
                       </div>
                     </div>
                     <div class="row no-gutters align-items-center mt-5">
@@ -190,19 +200,29 @@ pageEncoding="UTF-8"%>
                         </div>
                         <div
                           class="mt-5 d-flex justify-content-center px-5 write-button"
+                          id="emotion-group"
                         >
-                          <i class="far fa-laugh fa-3x mx-4"></i>
-                          <i class="far fa-laugh-squint fa-3x mx-4"></i>
-                          <i class="far fa-meh fa-3x mx-4"></i>
-                          <i class="far fa-dizzy fa-3x mx-4"></i>
-                          <i class="far fa-angry fa-3x mx-4"></i>
-                          <i class="far fa-sad-tear fa-3x mx-4"></i>
+                          <i class="far fa-laugh fa-3x mx-4" id="smile"></i>
+                          <i
+                            class="far fa-laugh-squint fa-3x mx-4"
+                            id="laugh"
+                          ></i>
+                          <i class="far fa-meh fa-3x mx-4" id="boring"></i>
+                          <i class="far fa-dizzy fa-3x mx-4" id="tired"></i>
+                          <i class="far fa-angry fa-3x mx-4" id="angry"></i>
+                          <i class="far fa-sad-tear fa-3x mx-4" id="sad"></i>
                         </div>
+                        <input
+                          type="hidden"
+                          name="emotion"
+                          id="emotionInput"
+                          value=""
+                        />
                       </div>
                     </div>
 
-                    <div class="row no-gutters align-items-center mt-5">
-                      <div class="col mr-2">
+                    <div class="row no-gutters align-items-center mt-5 pt-5">
+                      <div class="col-12 mr-2">
                         <div
                           class="text-s font-weight-bold text-uppercase d-flex"
                           style="
@@ -211,26 +231,76 @@ pageEncoding="UTF-8"%>
                             color: #666;
                           "
                         >
-                          <h6 class="my-3">루틴 키워드</h6>
-                          <div class="ml-auto mx-aut btn btn-light btn-circle">
+                          <!-- <label for="title" class="my-3"
+                            ><h6>루틴 키워드</h6></label
+                          > -->
+                          <input
+                            class="form-control"
+                            style="
+                              width: 230px;
+                              height: 30px;
+                              font-size: 12px;
+                              margin: 10px 10px;
+                            "
+                            type="text"
+                            name="keyword"
+                            id="keywordInput"
+                            placeholder="오늘의 루틴 키워드를 입력해주세요"
+                          />
+                          <div
+                            class="ml-auto mx-aut btn btn-light btn-circle"
+                            id="toggleColorGroup"
+                          >
                             <i
                               class="fas fa-palette fa-lg"
                               style="color: #4271ff"
                             ></i>
                           </div>
                         </div>
-                        <div class="mt-5 px-5">
-                          <textarea name="content" id="editor"></textarea>
+
+                        <div id="color-group">
+                          <c:forEach items="${color}" varStatus="status">
+                            <div
+                              class="btn btn-sm btn-circle m-2 color-chip"
+                              style="background-color: #<c:out value='${color[status.index].colorCode}' />;border:1px solid #ddd;"
+                            >
+                              <div id="colorNo" style="display: none">
+                                <c:out value="${color[status.index].colorNo}" />
+                              </div>
+                            </div>
+                          </c:forEach>
+
+                          <input
+                            type="hidden"
+                            name="colorNo"
+                            id="colorInput"
+                            value="11"
+                          />
                         </div>
                       </div>
+                      <div class="col-12 mt-5 px-5">
+                        <textarea name="content" id="editor"></textarea>
+                      </div>
                     </div>
+                    <div
+                      id="confirm-text"
+                      style="margin: 50px; text-align: center; color: coral"
+                    ></div>
                     <div class="my-5 d-flex justify-content-center">
-                      <div class="btn btn-secondary mx-5" style="width: 100px">
+                      <button
+                        class="btn btn-secondary mx-5"
+                        style="width: 100px"
+                      >
                         취소
-                      </div>
-                      <div class="btn btn-warning mx-5" style="width: 100px">
+                      </button>
+                      <button
+                        id="btn-submit"
+                        class="btn btn-warning mx-5"
+                        style="width: 100px"
+                        type="submit"
+                      >
                         작성하기
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -341,6 +411,100 @@ pageEncoding="UTF-8"%>
       $(function () {
         $("#set-alram").click(function () {
           $("#remove-modal").modal("show");
+        });
+      });
+    </script>
+    <!-- onClick -->
+    <script>
+      $(function () {
+        //유효성 검증
+        $("#btn-submit").click(function (event) {
+          event.preventDefault();
+
+          //날씨
+          var inputWeather = $("#weatherInput").val();
+          //감정
+          var inputEmotion = $("#emotionInput").val();
+          //키워드
+          var inputKeyword = $("#keywordInput").val();
+          //내용
+          var inputContent = $(".ck-content").text(); // .html() 대신 .text() 사용
+
+          if (inputWeather === "") {
+            $("#confirm-text").text("오늘의 날씨를 골라주세요.");
+          } else if (inputEmotion === "") {
+            $("#confirm-text").text("오늘의 감정을 골라주세요.");
+          } else if (inputKeyword === "") {
+            $("#confirm-text").text("오늘의 키워드를 작성해주세요.");
+          } else if (inputContent === "") {
+            $("#confirm-text").text("오늘의 루틴을 작성해주세요.");
+          } else {
+            $("#diaryform").submit();
+          }
+        });
+
+        //날씨선택
+        var previousChildWeather = null;
+        $("#weather-group").on("click", "i", function () {
+          if (previousChildWeather !== null) {
+            $(previousChildWeather).css("color", "#757575");
+          }
+          $(this).css("color", "#fbc91b");
+
+          var clickedId = $(this).attr("id");
+          $("#weatherInput").val($(this).attr("id"));
+          previousChildWeather = this;
+        });
+        //감정선택
+        var previousChildEmotion = null;
+        $("#emotion-group").on("click", "i", function () {
+          if (previousChildEmotion !== null) {
+            $(previousChildEmotion).css("color", "#757575");
+          }
+          $(this).css("color", "#fbc91b");
+
+          var clickedId = $(this).attr("id");
+          $("#emotionInput").val($(this).attr("id"));
+          previousChildEmotion = this;
+        });
+        //색상선택
+        var previousChildColor = null;
+        $("#color-group").on("click", "div", function () {
+          // 이미 선택한 요소를 다시 선택했을 때
+          if (previousChildColor === this) {
+            $(previousChildColor).css("border", "1px solid #ddd");
+            $("#colorInput").val(11);
+            previousChildColor = null;
+            return; // 이후 로직을 수행하지 않고 종료
+          }
+
+          // 이전에 선택한 요소의 border를 none으로 설정
+          $(previousChildColor).css("border", "1px solid #ddd");
+
+          $(this).css("border", "2px solid #757575");
+
+          var clickedId = $(this).attr("id");
+          var colorNo = $(this).find("#colorNo").text().trim();
+          $("#colorInput").val(colorNo);
+
+          // 현재 선택한 요소의 .ck-blurred 클래스를 가진 요소의 배경색을 변경
+          var backgroundColor = $(this).css("background");
+          var ckContent = $("body").find(".ck-content");
+
+          if (ckContent.length > 0) {
+            ckContent.css("background", backgroundColor);
+            // 포커스를 받았을 때 배경색 변경
+
+            // 포커스를 받거나 잃었을 때 배경색 변경
+            ckContent.on("focus blur", function () {
+              ckContent.css("background", backgroundColor);
+            });
+          }
+          previousChildColor = this;
+        });
+        //팔레트 클릭시 토글
+        $("#toggleColorGroup").on("click", function () {
+          $("#color-group").toggle();
         });
       });
     </script>

@@ -1,6 +1,7 @@
-<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -148,55 +149,100 @@ pageEncoding="UTF-8"%>
                           color: #444;
                         "
                       >
-                        <span style="color: #fbc91b">루</span>틴
-                        <span style="color: #fbc91b"> 다</span>이어리 작성하기
+                        <span style="color: #fbc91b">${diary.ownerDate}</span>
+                        의 다이어리
                       </h2>
                     </div>
                     <div class="row no-gutters align-items-center mt-5">
                       <div class="col mr-2">
                         <div
-                          class="text-s font-weight-bold text-uppercase"
+                          class="text-s font-weight-bold text-uppercase d-flex justify-content-around"
                           style="
                             height: 50px;
-                            border-bottom: 1px solid #ccc;
+
                             color: #666;
                           "
                         >
                           <h6 class="py-3">날씨</h6>
-                        </div>
-                        <div
-                          class="mt-5 d-flex justify-content-center px-5 write-button"
-                        >
-                          <i class="fas fa-sun fa-3x mx-4"></i>
-                          <i class="fas fa-cloud fa-3x mx-4"></i>
-                          <i class="fas fa-cloud-rain fa-3x mx-4"></i>
-                          <i class="fas fa-snowflake fa-3x mx-4"></i>
-                          <i class="fas fa-bolt fa-3x mx-4"></i>
-                          <i class="fas fa-wind fa-3x mx-4"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row no-gutters align-items-center mt-5">
-                      <div class="col mr-2">
-                        <div
-                          class="text-s font-weight-bold text-uppercase"
-                          style="
-                            height: 50px;
-                            border-bottom: 1px solid #ccc;
-                            color: #666;
-                          "
-                        >
                           <h6 class="py-3">감정</h6>
                         </div>
-                        <div
-                          class="mt-5 d-flex justify-content-center px-5 write-button"
-                        >
-                          <i class="far fa-laugh fa-3x mx-4"></i>
-                          <i class="far fa-laugh-squint fa-3x mx-4"></i>
-                          <i class="far fa-meh fa-3x mx-4"></i>
-                          <i class="far fa-dizzy fa-3x mx-4"></i>
-                          <i class="far fa-angry fa-3x mx-4"></i>
-                          <i class="far fa-sad-tear fa-3x mx-4"></i>
+                        <div class="mt-3 d-flex justify-content-around">
+                          <c:choose>
+                            <c:when test="${diary.weather == 'cloud'}">
+                              <i
+                                class="fas fa-cloud fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.weather == 'sun'}">
+                              <i
+                                class="fas fa-sun fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.weather == 'rain'}">
+                              <i
+                                class="fas fa-cloud-rain fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.weather == 'snow'}">
+                              <i
+                                class="fas fa-snowflake fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.weather == 'bolt'}">
+                              <i
+                                class="fas fa-bolt fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.weather == 'wind'}">
+                              <i
+                                class="fas fa-wind fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                          </c:choose>
+                          <c:choose>
+                            <c:when test="${diary.emotion == 'smile'}">
+                              <i
+                                class="far fa-laugh fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.emotion == 'laugh'}">
+                              <i
+                                class="far fa-laugh-squint fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.emotion == 'boring'}">
+                              <i
+                                class="far fa-meh fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.emotion == 'tired'}">
+                              <i
+                                class="far fa-dizzy fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test="${diary.emotion == 'angry'}">
+                              <i
+                                class="far fa-angry fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                            <c:when test=" ${diary.emotion == 'sad'}">
+                              <i
+                                class="far fa-sad-tear fa-3x mx-4"
+                                style="color:#${color};"
+                              ></i>
+                            </c:when>
+                          </c:choose>
                         </div>
                       </div>
                     </div>
@@ -211,22 +257,27 @@ pageEncoding="UTF-8"%>
                             color: #666;
                           "
                         >
-                          <h6 class="my-3">루틴 키워드</h6>
+                          <h6 class="my-3">${diary.keyword}</h6>
                         </div>
                         <div class="mt-5 px-5">
-                          <div class="border px-3" style="min-height: 200px">
-                            <p></p>
-                            <p>배때기가 귀여운 고양이팝니다</p>
-                            <p>&nbsp;</p>
-                            <p></p>
+                          <div
+                            class="border px-3"
+                            style="min-height: 200px; background-color: #${color};"
+                          >
+                            <div class="m-3">${diary.content}</div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="my-5 d-flex justify-content-center">
-                      <div class="btn btn-secondary mx-5" style="width: 100px">
-                        뒤로
-                      </div>
+                      <a href="/">
+                        <div
+                          class="btn btn-secondary mx-5"
+                          style="width: 100px"
+                        >
+                          뒤로
+                        </div>
+                      </a>
                     </div>
                   </div>
                 </div>

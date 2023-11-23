@@ -1,5 +1,7 @@
 package co.poetrypainting.ruda.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +26,26 @@ public class DiaryServiceImpl implements DiaryService{
      private DiaryMapper diaryMapper;
     @Override
     public void register(DiaryVo vo) {
-logger.info("{}",vo);
-//diaryMapper.insert(vo);
+diaryMapper.insert(vo);
 
 }
 @Override
-public ColorDto getColor() {
+public List<ColorDto> getColor() {
     
-    ColorDto colors = diaryMapper.selectColorDto();
+    List<ColorDto> colors = diaryMapper.selectColorDto();
     
-    logger.info("{}",colors);
+    
     return colors;
+     }
+@Override
+     public DiaryVo get(Long diaryNo) {
+        DiaryVo vo = diaryMapper.selectByPrimaryKey(diaryNo);
+        return vo;
+     }
+     @Override
+     public String getColorCode(Long getColorNo) {
+        String code = diaryMapper.getColorCode(getColorNo);
+        return code;
      }
 
 }
