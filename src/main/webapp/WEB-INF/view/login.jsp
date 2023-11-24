@@ -53,14 +53,12 @@ pageEncoding="UTF-8"%>
                                     </div>
                                     <form class="user pt-5 my-4">
                                       <div style="height: 75px; width: 345px;" >
-                                        <a class="kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=0ba57520234b695f9f3d011035aded66&redirect_uri=http://localhost:8080/login&response_type=code">
-                                        <img class="img-fluid btn" src="../../resources/ruda_img/kakao_login_large_wide.png">
-                                        </a>
+                                          <jsp:text>${AUTHORIZATION_URI}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code</jsp:text>
+                                          <a class="kakao" href="${AUTHORIZATION_URI}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code">
+                                              <img class="img-fluid btn" src="../../resources/ruda_img/kakao_login_large_wide.png">
+                                          </a>
                                       </div>
-                                   
                                     </form>
-                                   
-                                
                                 </div>
                             </div>
                         </div>

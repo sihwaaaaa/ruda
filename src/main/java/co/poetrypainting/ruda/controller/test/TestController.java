@@ -1,33 +1,40 @@
-package co.poetrypainting.ruda.controller;
+package co.poetrypainting.ruda.controller.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.poetrypainting.ruda.service.KakaoLoginServiceImpl;
+import co.poetrypainting.ruda.service.test.KakaoLoginServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
 @Slf4j
+@Controller
+@RequestMapping(value = "/test")
 public class TestController {
 
 	Logger logger = LoggerFactory.getLogger(TestController.class);
-  @GetMapping("/")
-  public String hello() {
-  	logger.info("hello");
-    return "index";
-  }
+  	@GetMapping("/")
+	public String hello() {
+		  logger.info("hello");
+		  return "index";
+	}
  
- @Autowired
+ 	@Autowired
     public KakaoLoginServiceImpl iKakaoS;
-   
-	// 1번 카카오톡에 사용자 코드 받기(jsp의 a태그 href에 경로 있음)
-	// 2번 받은 code를 iKakaoS.getAccessToken로 보냄 ###access_Token###로 찍어서 잘 나오면은 다음단계진행
-	// 3번 받은 access_Token를 iKakaoS.getUserInfo로 보냄 userInfo받아옴, userInfo에 nickname, email정보가 담겨있음
+
+	/**
+	 * 1번 카카오톡에 사용자 코드 받기(jsp의 a태그 href에 경로 있음)
+	 * 2번 받은 code를 iKakaoS.getAccessToken로 보냄 ###access_Token###로 찍어서 잘 나오면은 다음단계진행
+	 * 3번 받은 access_Token를 iKakaoS.getUserInfo로 보냄 userInfo받아옴, userInfo에 nickname, email정보가 담겨있음
+	 * @param code redirect url에서 받아오는 user code
+	 * @return null
+	 * @throws Throwable error handling
+	 */
 	@GetMapping(value = "/login")
 	public ModelAndView kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Throwable {
 

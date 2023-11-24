@@ -1,21 +1,21 @@
-package co.poetrypainting.ruda.controller;
+package co.poetrypainting.ruda.controller.diary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import co.poetrypainting.ruda.domain.ColorDto;
-import co.poetrypainting.ruda.service.DiaryService;
+import co.poetrypainting.ruda.service.diary.DiaryService;
 import lombok.extern.slf4j.Slf4j;
-@Controller
-@Slf4j
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@Slf4j
+@Controller
+@RequestMapping("/diary")
 public class DiaryController {
-    Logger logger = LoggerFactory.getLogger(DiaryController.class);
+    private final Logger logger = LoggerFactory.getLogger(DiaryController.class);
     @Autowired
     private DiaryService diaryService;
      @GetMapping("/write")
