@@ -1,4 +1,4 @@
-package co.poetrypainting.ruda.service;
+package co.poetrypainting.ruda.service.diary;
 
 import java.util.List;
 

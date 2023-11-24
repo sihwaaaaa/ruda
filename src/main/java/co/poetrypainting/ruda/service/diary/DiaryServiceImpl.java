@@ -1,4 +1,4 @@
-package co.poetrypainting.ruda.service;
+package co.poetrypainting.ruda.service.diary;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.poetrypainting.ruda.controller.DiaryController;
 import co.poetrypainting.ruda.domain.ColorDto;
 import co.poetrypainting.ruda.domain.DiaryVo;
 import co.poetrypainting.ruda.mapper.DiaryMapper;
