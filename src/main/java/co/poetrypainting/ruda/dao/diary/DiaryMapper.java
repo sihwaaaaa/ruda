@@ -1,13 +1,11 @@
-package co.poetrypainting.ruda.mapper;
+package co.poetrypainting.ruda.dao.diary;
 
 import java.util.List;
+import co.poetrypainting.ruda.domain.color.ColorDto;
+import co.poetrypainting.ruda.domain.diary.DiaryVo;
+import org.springframework.stereotype.Repository;
 
-import org.apache.ibatis.annotations.Mapper;
-
-import co.poetrypainting.ruda.domain.ColorDto;
-import co.poetrypainting.ruda.domain.DiaryVo;
-
-@Mapper
+@Repository
 public interface DiaryMapper {
     Long insert(DiaryVo vo);
     List<ColorDto> selectColorDto();

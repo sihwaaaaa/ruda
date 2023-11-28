@@ -3,15 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="co.poetrypainting.ruda.mapper.DiaryMapper">
+<mapper namespace="co.poetrypainting.ruda.dao.diary.DiaryMapper">
     <insert id="insert">
         insert into tbl_diary (weather,emotion,keyword,content,colorNo,memberNo,ownerDate)
         values(#{weather},#{emotion},#{keyword},#{content},#{colorNo},1,sysdate())
     </insert>
-    <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.ColorDto">
+    <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.color.ColorDto">
 		select * from tbl_color where colorNo > 0
 	</select>
-    <select id="selectByPrimaryKey" resultType="co.poetrypainting.ruda.domain.DiaryVo">
+    <select id="selectByPrimaryKey" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo">
 		select * from tbl_diary where diaryNo = #{diaryNo}
 	</select>
     <select id="getColorCode">

@@ -2,8 +2,8 @@ package co.poetrypainting.ruda.service.diary;
 
 import java.util.List;
 
-import co.poetrypainting.ruda.domain.ColorDto;
-import co.poetrypainting.ruda.domain.DiaryVo;
+import co.poetrypainting.ruda.domain.color.ColorDto;
+import co.poetrypainting.ruda.domain.diary.DiaryVo;
 
 public interface DiaryService {
     void register(DiaryVo vo);

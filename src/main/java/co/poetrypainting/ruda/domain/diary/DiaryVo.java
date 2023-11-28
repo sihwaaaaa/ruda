@@ -1,4 +1,4 @@
-package co.poetrypainting.ruda.domain;
+package co.poetrypainting.ruda.domain.diary;
 
 import java.util.Date;
 
@@ -19,6 +19,4 @@ public class DiaryVo {
     private Date regDate;
     private Long memberNo;
     private Date ownerDate;
-    
-    
 }

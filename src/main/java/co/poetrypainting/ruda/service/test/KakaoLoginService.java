@@ -8,11 +8,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
-
 import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Service
 public class KakaoLoginService implements KakaoLoginServiceImpl{
 

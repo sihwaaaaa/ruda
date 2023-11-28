@@ -33,11 +33,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-implementation 'jakarta.servlet:jakarta.servlet-api'
-implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
-implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
-
-
+	implementation 'jakarta.servlet:jakarta.servlet-api'
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
 }
 
 tasks.named('test') {
