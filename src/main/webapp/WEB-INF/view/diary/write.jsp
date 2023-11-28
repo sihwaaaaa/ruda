@@ -140,6 +140,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                 <div
                   class="card border-bottom-warning shadow h-100 d-flex align-items-center"
                   style="width: 1000px"
+                  id="write-card"
                 >
                   <div class="card-body p-5" style="width: 850px">
                     <div class="d-flex justify-content-center mt-4">
@@ -231,9 +232,6 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                             color: #666;
                           "
                         >
-                          <!-- <label for="title" class="my-3"
-                            ><h6>루틴 키워드</h6></label
-                          > -->
                           <input
                             class="form-control"
                             style="
@@ -280,6 +278,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                       </div>
                       <div class="col-12 mt-5 px-5">
                         <textarea name="content" id="editor"></textarea>
+                        <div style="float: right" id="counter">(0 / 50)</div>
                       </div>
                     </div>
                     <div
@@ -377,9 +376,33 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 
     <script src="../../resources/js/ckeditor.js"></script>
     <script>
-      ClassicEditor.create(document.querySelector("#editor"), {});
-    </script>
+      // CKEditor 인스턴스 생성
+      ClassicEditor.create(document.querySelector("#editor"), {})
+        .then((editor) => {
+          // CKEditor 내용이 변경될 때마다 이벤트 리스너 추가
+          editor.model.document.on("change", () => {
+            var textContent = stripHtmlTags(editor.getData());
+            $("#counter").html("(" + textContent.length + " / 50)");
 
+            if (textContent.length > 50) {
+              $("#confirm-text").text("최대 50자까지 입력 가능합니다.");
+
+              // 실제 글자 수가 50자를 초과하면 확인 텍스트만 표시하고 더 이상의 처리를 하지 않음
+              return;
+            } else {
+              $("#confirm-text").text(""); // 제한 내에서 입력이면 확인 텍스트를 지움
+            }
+          });
+        })
+        .catch((error) => {
+          console.error("CKEditor를 초기화하는 중 오류가 발생했습니다.", error);
+        });
+
+      // HTML 태그 제거 함수
+      function stripHtmlTags(html) {
+        return html.replace(/<[^>]*>/g, "");
+      }
+    </script>
     <!-- Bootstrap core JavaScript-->
     <script src="../../resources/vendor/jquery/jquery.min.js"></script>
     <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -429,15 +452,19 @@ uri="http://java.sun.com/jsp/jstl/core"%>
           var inputKeyword = $("#keywordInput").val();
           //내용
           var inputContent = $(".ck-content").text(); // .html() 대신 .text() 사용
-
+          console.log(inputContent.length);
           if (inputWeather === "") {
             $("#confirm-text").text("오늘의 날씨를 골라주세요.");
           } else if (inputEmotion === "") {
             $("#confirm-text").text("오늘의 감정을 골라주세요.");
           } else if (inputKeyword === "") {
             $("#confirm-text").text("오늘의 키워드를 작성해주세요.");
+          } else if (inputKeyword.length > 8) {
+            $("#confirm-text").text("키워드는 8자까지 입력 가능합니다.");
           } else if (inputContent === "") {
             $("#confirm-text").text("오늘의 루틴을 작성해주세요.");
+          } else if (inputContent.length > 50) {
+            $("#confirm-text").text("최대 50자까지 입력 가능합니다.");
           } else {
             $("#diaryform").submit();
           }
@@ -467,41 +494,63 @@ uri="http://java.sun.com/jsp/jstl/core"%>
           $("#emotionInput").val($(this).attr("id"));
           previousChildEmotion = this;
         });
-        //색상선택
+
+        // 컬러선택
         var previousChildColor = null;
+
         $("#color-group").on("click", "div", function () {
           // 이미 선택한 요소를 다시 선택했을 때
           if (previousChildColor === this) {
-            $(previousChildColor).css("border", "1px solid #ddd");
-            $("#colorInput").val(11);
-            previousChildColor = null;
-            return; // 이후 로직을 수행하지 않고 종료
+            resetColorSelection();
+            return; // 종료
           }
 
           // 이전에 선택한 요소의 border를 none으로 설정
-          $(previousChildColor).css("border", "1px solid #ddd");
+          if (previousChildColor) {
+            $(previousChildColor).css("border", "1px solid #ddd");
+          }
 
           $(this).css("border", "2px solid #757575");
 
-          var clickedId = $(this).attr("id");
           var colorNo = $(this).find("#colorNo").text().trim();
           $("#colorInput").val(colorNo);
 
-          // 현재 선택한 요소의 .ck-blurred 클래스를 가진 요소의 배경색을 변경
-          var backgroundColor = $(this).css("background");
-          var ckContent = $("body").find(".ck-content");
+          // 배경색 변경
+          updateBackgroundColor($(this).css("background"));
 
-          if (ckContent.length > 0) {
-            ckContent.css("background", backgroundColor);
-            // 포커스를 받았을 때 배경색 변경
-
-            // 포커스를 받거나 잃었을 때 배경색 변경
-            ckContent.on("focus blur", function () {
-              ckContent.css("background", backgroundColor);
-            });
-          }
           previousChildColor = this;
         });
+
+        function resetColorSelection() {
+          $(previousChildColor).css("border", "1px solid #ddd");
+          $("#colorInput").val(11);
+
+          // 배경색 초기화
+          var ckContent = $("body").find(".ck-blurred");
+          if (ckContent.length > 0) {
+            ckContent.css("background", "white");
+
+            // 포커스 이벤트
+            ckContent.on("focus blur", function () {
+              ckContent.css("background", "white");
+            });
+          }
+
+          previousChildColor = null;
+        }
+
+        function updateBackgroundColor(color) {
+          var ckContent = $("body").find(".ck-blurred");
+          if (ckContent.length > 0) {
+            ckContent.css("background", color);
+
+            // 포커스 이벤트
+            ckContent.on("focus blur", function () {
+              ckContent.css("background", color);
+            });
+          }
+        }
+
         //팔레트 클릭시 토글
         $("#toggleColorGroup").on("click", function () {
           $("#color-group").toggle();

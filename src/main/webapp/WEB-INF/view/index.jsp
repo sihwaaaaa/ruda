@@ -28,6 +28,106 @@ pageEncoding="UTF-8"%>
 
     <!-- Custom styles for this template-->
     <link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet" />
+    <!-- 사용자 정의 스타일 추가 -->
+    <style>
+      /*달력의 크기 설정*/
+      .calendar {
+        width: 850px;
+        margin: 50px;
+        /*margin 통해 브라우저 작아졌을 때 자연스럽게 하기 위해*/
+      }
+      /*header 부분 설정*/
+      .header {
+        display: flex;
+        /*header안 year-month와 nav 가로 나열*/
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .year-month {
+        font-size: 35px;
+      }
+
+      .nav {
+        display: flex;
+        /*nav 버튼 정렬 위해*/
+        border: 1px solid #333333;
+        border-radius: 5px;
+        /*테두리 그리고 라운딩*/
+      }
+
+      .nav-btn {
+        width: 28px;
+        height: 30px;
+        border: none;
+        font-size: 16px;
+        line-height: 34px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+
+      .go-today {
+        width: 75px;
+        /*today라는 긴 글자 들어가야함으로 너비 크게*/
+        border-left: 1px solid #333333;
+        border-right: 1px solid #333333;
+      }
+      .days {
+        display: flex;
+        margin: 25px 0 10px;
+      }
+
+      .day {
+        width: calc(100% / 7);
+        text-align: center;
+      }
+
+      .dates {
+        display: flex;
+        flex-flow: row wrap;
+        height: 500px;
+        border-top: 1px solid #333333;
+        border-right: 1px solid #333333;
+      }
+
+      .date {
+        width: calc(100% / 7);
+        padding: 15px;
+        text-align: right;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #333333;
+      }
+      .date h6 {
+        margin-top: 15px;
+        font-size: 12px;
+        color: black;
+      }
+      .day:nth-child(7n + 1),
+      .date:nth-child(7n + 1) {
+        color: #d13e3e;
+        /*일요일은 빨간색*/
+      }
+
+      .day:nth-child(7n),
+      .date:nth-child(7n) {
+        color: #396ee2;
+        /*토요일은 파란색*/
+      }
+      .other {
+        opacity: 0.3;
+      }
+      .today {
+        position: relative;
+        font-size: 15px;
+        padding: 5px;
+        color: #fbc91b;
+        background-color: #fff8f3;
+        border: 1px dashed #fbc91b;
+        border-radius: 20px;
+      }
+
+      /* 여기까지 달력 */
+    </style>
   </head>
 
   <body id="page-top">
@@ -133,11 +233,39 @@ pageEncoding="UTF-8"%>
         <div id="content" class="bg-white">
           <!-- Begin Page Content -->
           <div class="container-fluid">
-            <!-- calendar -->
-            <div id="wrap">
-              <div class="card shadow" id="calendar"></div>
+            <div id="wrap" class="d-flex justify-content-center">
+              <div class="calendar">
+                <div class="header">
+                  <div class="year-month"></div>
+                  <div class="nav">
+                    <button class="nav-btn go-prev" onclick="prevMonth()">
+                      &lt;
+                    </button>
+                    <button class="nav-btn go-today" onclick="goToday()">
+                      Today
+                    </button>
+                    <button class="nav-btn go-next" onclick="nextMonth()">
+                      &gt;
+                    </button>
+                  </div>
+                </div>
+                <div class="main">
+                  <div class="days">
+                    <div class="day">일</div>
+                    <div class="day">월</div>
+                    <div class="day">화</div>
+                    <div class="day">수</div>
+                    <div class="day">목</div>
+                    <div class="day">금</div>
+                    <div class="day">토</div>
+                  </div>
+                  <div class="dates"></div>
+                </div>
+              </div>
+              <!-- calendar -->
+              <!--   <div class="card shadow" id="calendar"></div>
 
-              <div style="clear: both"></div>
+              <div style="clear: both"></div>-->
             </div>
           </div>
           <!-- /.container-fluid -->
@@ -227,16 +355,115 @@ pageEncoding="UTF-8"%>
     <!-- calendar script -->
     <!-- calendar script -->
 
-    <script
+    <!-- <script
       src="../../resources/vendor/calendar/jquery-ui.custom.min.js"
       type="text/javascript"
     ></script>
     <script
       src="../../resources/vendor/calendar/fullcalendar.js"
       type="text/javascript"
-    ></script>
-
+    ></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+      // Date 객체 생성
+      let date = new Date();
+      const prevMonth = () => {
+        date.setMonth(date.getMonth() - 1);
+        renderCalendar();
+      };
+
+      const nextMonth = () => {
+        date.setMonth(date.getMonth() + 1);
+        renderCalendar();
+      };
+
+      const goToday = () => {
+        date = new Date();
+        renderCalendar();
+      };
+      const renderCalendar = () => {
+        const viewYear = date.getFullYear();
+        const viewMonth = date.getMonth();
+        const viewMonthViewer = viewMonth + 1;
+
+        // year-month 채우기
+        document.querySelector(".year-month").textContent =
+          viewYear + `년 ` + viewMonthViewer + `월`;
+
+        // 지난 달 마지막 Date, 이번 달 마지막 Date
+        const prevLast = new Date(viewYear, viewMonth, 0);
+        const thisLast = new Date(viewYear, viewMonth + 1, 0);
+
+        const PLDate = prevLast.getDate();
+        const PLDay = prevLast.getDay();
+
+        const TLDate = thisLast.getDate();
+        const TLDay = thisLast.getDay();
+
+        // Dates 기본 배열들
+        const prevDates = [];
+        const thisDates = [...Array(TLDate + 1).keys()].slice(1);
+        const nextDates = [];
+
+        // prevDates 계산
+        if (PLDay !== 6) {
+          for (let i = 0; i < PLDay + 1; i++) {
+            prevDates.unshift(PLDate - i);
+          }
+        }
+
+        // nextDates 계산
+        for (let i = 1; i < 7 - TLDay; i++) {
+          nextDates.push(i);
+        }
+
+        // Dates 합치기
+        const dates = prevDates.concat(thisDates, nextDates);
+        // Dates 정리
+        const firstDateIndex = dates.indexOf(1);
+        const lastDateIndex = dates.lastIndexOf(TLDate);
+        dates.forEach((date, i) => {
+          const condition =
+            i >= firstDateIndex && i < lastDateIndex + 1 ? "this" : "other";
+          //컨트롤러에서 list 받아서 작성된 데이터 있을경우 변수로 저장해서 키워드 노출
+          dates[i] =
+            `<div class="date"><span class="` +
+            condition +
+            `">` +
+            date +
+            `</span>` +
+            `<h6>여기에 키워드 </h6>` +
+            `</div>`;
+        });
+
+        // Dates 그리기
+        document.querySelector(".dates").innerHTML = dates.join("");
+        // 오늘 날짜 그리기
+        const today = new Date();
+        //오늘 날짜에 맞는 Date 객체 생성
+        if (
+          viewMonth === today.getMonth() &&
+          viewYear === today.getFullYear()
+        ) {
+          //viewMonth와 viewYear가 today와 동일한지 비교
+          for (let date of document.querySelectorAll(".this")) {
+            //동일한 경우 this 클래스 가진 태그 다 찾아내고
+            if (+date.innerText === today.getDate()) {
+              //해당 태그의 문자 값을 숫자로 변경해 오늘 날짜오 비교하고
+              date.classList.add("today");
+              //today 클래스 부여
+              break;
+              //today는 한개 뿐이라 더이상 탐색 필요 없으니 탈출
+            }
+          }
+        }
+      };
+
+      renderCalendar();
+    </script>
+
+    <!-- 달력 템플릿 -->
+    <!-- <script>
       $(document).ready(function () {
         var date = new Date();
         var d = date.getDate();
@@ -386,7 +613,7 @@ pageEncoding="UTF-8"%>
           ],
         });
       });
-    </script>
+    </script> -->
     <!-- 알람 모달 -->
     <script>
       $(function () {

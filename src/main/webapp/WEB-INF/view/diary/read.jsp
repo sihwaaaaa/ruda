@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core"%>
+uri="http://java.sun.com/jsp/jstl/core"%> <%@ taglib prefix="fmt"
+uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -149,7 +150,11 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                           color: #444;
                         "
                       >
-                        <span style="color: #fbc91b">${diary.ownerDate}</span>
+                        <span style="color: #fbc91b"
+                          ><fmt:formatDate
+                            value="${diary.ownerDate}"
+                            pattern="yyyy년 MM월 dd일"
+                        /></span>
                         의 다이어리
                       </h2>
                     </div>
@@ -166,81 +171,48 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                           <h6 class="py-3">날씨</h6>
                           <h6 class="py-3">감정</h6>
                         </div>
-                        <div class="mt-3 d-flex justify-content-around">
+                        <div
+                          class="mt-3 d-flex justify-content-around"
+                          id="readIcon"
+                        >
                           <c:choose>
                             <c:when test="${diary.weather == 'cloud'}">
-                              <i
-                                class="fas fa-cloud fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="fas fa-cloud fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.weather == 'sun'}">
-                              <i
-                                class="fas fa-sun fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="fas fa-sun fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.weather == 'rain'}">
-                              <i
-                                class="fas fa-cloud-rain fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="fas fa-cloud-rain fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.weather == 'snow'}">
-                              <i
-                                class="fas fa-snowflake fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="fas fa-snowflake fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.weather == 'bolt'}">
-                              <i
-                                class="fas fa-bolt fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="fas fa-bolt fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.weather == 'wind'}">
-                              <i
-                                class="fas fa-wind fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="fas fa-wind fa-3x mx-4"></i>
                             </c:when>
                           </c:choose>
                           <c:choose>
                             <c:when test="${diary.emotion == 'smile'}">
-                              <i
-                                class="far fa-laugh fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="far fa-laugh fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.emotion == 'laugh'}">
-                              <i
-                                class="far fa-laugh-squint fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="far fa-laugh-squint fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.emotion == 'boring'}">
-                              <i
-                                class="far fa-meh fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="far fa-meh fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.emotion == 'tired'}">
-                              <i
-                                class="far fa-dizzy fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="far fa-dizzy fa-3x mx-4"></i>
                             </c:when>
                             <c:when test="${diary.emotion == 'angry'}">
-                              <i
-                                class="far fa-angry fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="far fa-angry fa-3x mx-4"></i>
                             </c:when>
                             <c:when test=" ${diary.emotion == 'sad'}">
-                              <i
-                                class="far fa-sad-tear fa-3x mx-4"
-                                style="color:#${color};"
-                              ></i>
+                              <i class="far fa-sad-tear fa-3x mx-4"></i>
                             </c:when>
                           </c:choose>
                         </div>

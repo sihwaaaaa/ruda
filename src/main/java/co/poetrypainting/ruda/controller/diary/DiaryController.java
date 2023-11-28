@@ -26,7 +26,7 @@ public class DiaryController {
     @GetMapping("/write")
     public String Write(Model model) {
         model.addAttribute("color", diaryService.getColor());
-        return "write";
+        return "diary/write";
     }
 
     @PostMapping("/write")
@@ -42,7 +42,7 @@ public class DiaryController {
         model.addAttribute("diary", diaryService.get(diaryNo));
         logger.info("{}", diaryService.getColorCode(diaryService.get(diaryNo).getColorNo()));
         model.addAttribute("color", diaryService.getColorCode(diaryService.get(diaryNo).getColorNo()));
-        return "read";
+        return "diary/read";
     }
 
     // @GetMapping("{bno}")

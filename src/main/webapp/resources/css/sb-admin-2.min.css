@@ -16,6 +16,7 @@
   font-weight: 400;
   font-style: normal;
 }
+
 .ck-editor__editable {
   height: 200px;
 }
@@ -23,7 +24,9 @@
   color: #fbc91b;
   cursor: pointer;
 }
-
+#readIcon i {
+  color: #fbc91b;
+}
 #color-group {
   display: flex;
   flex-wrap: wrap;
