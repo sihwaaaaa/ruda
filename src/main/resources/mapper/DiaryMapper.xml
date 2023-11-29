@@ -6,7 +6,7 @@
 <mapper namespace="co.poetrypainting.ruda.mapper.DiaryMapper">
     <insert id="insert">
         insert into tbl_diary (weather,emotion,keyword,content,colorNo,memberNo,ownerDate)
-        values(#{weather},#{emotion},#{keyword},#{content},#{colorNo},1,sysdate())
+        values(#{weather},#{emotion},#{keyword},#{content},#{colorNo},1,#{ownerDate})
     </insert>
     <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.ColorDto">
 		select * from tbl_color where colorNo > 0
@@ -16,5 +16,8 @@
 	</select>
     <select id="getColorCode">
 		select colorCode from tbl_color where colorNo = #{getColorNo}
+	</select>
+    <select id="selectDiaryList" resultType="co.poetrypainting.ruda.domain.DiaryVo">
+		select * from tbl_diary where diaryNo > 0
 	</select>
 </mapper>

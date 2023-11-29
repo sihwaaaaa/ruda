@@ -13,4 +13,5 @@ public interface DiaryMapper {
     List<ColorDto> selectColorDto();
     DiaryVo selectByPrimaryKey(Long diaryNo);
     String getColorCode(Long getColorNo);
+    List<DiaryVo> selectDiaryList();
 }

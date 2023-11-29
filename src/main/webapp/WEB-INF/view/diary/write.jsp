@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core"%>
+uri="http://java.sun.com/jsp/jstl/core"%><%@ taglib prefix="fmt"
+uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -232,6 +233,11 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                             color: #666;
                           "
                         >
+                          <h6 class="py-3"><fmt:formatDate
+                            value="${ownerDate}"
+                            pattern="yyyy년 MM월 dd일"
+                        /></span></h6>
+                        <input type="hidden" id="ownerDateInput" name="ownerDate" value="" />
                           <input
                             class="form-control"
                             style="
@@ -466,6 +472,9 @@ uri="http://java.sun.com/jsp/jstl/core"%>
           } else if (inputContent.length > 50) {
             $("#confirm-text").text("최대 50자까지 입력 가능합니다.");
           } else {
+            var ownerDateEpoch =${ownerDateType};
+            var ownerDate = new Date(ownerDateEpoch);
+            $("#ownerDateInput").val(ownerDate); 
             $("#diaryform").submit();
           }
         });

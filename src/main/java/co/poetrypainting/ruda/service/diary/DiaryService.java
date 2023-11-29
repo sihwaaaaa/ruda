@@ -10,4 +10,5 @@ public interface DiaryService {
     List<ColorDto> getColor();
     DiaryVo get(Long diaryNo);
     String getColorCode(Long getColorNo);
+    String getDiaryList();
 } 

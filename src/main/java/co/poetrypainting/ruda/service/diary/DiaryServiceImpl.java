@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.poetrypainting.ruda.domain.ColorDto;
 import co.poetrypainting.ruda.domain.DiaryVo;
 import co.poetrypainting.ruda.mapper.DiaryMapper;
@@ -37,6 +40,18 @@ public List<ColorDto> getColor() {
     return colors;
      }
 @Override
+public String getDiaryList() {
+    List<DiaryVo> diaryVos = diaryMapper.selectDiaryList();
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+        return objectMapper.writeValueAsString(diaryVos);
+    } catch (JsonProcessingException e) {
+        e.printStackTrace();
+        return "[]"; // 또는 다른 오류 처리 방식
+    }
+     }
+@Override
      public DiaryVo get(Long diaryNo) {
         DiaryVo vo = diaryMapper.selectByPrimaryKey(diaryNo);
         return vo;
@@ -46,5 +61,6 @@ public List<ColorDto> getColor() {
         String code = diaryMapper.getColorCode(getColorNo);
         return code;
      }
+   
 
 }

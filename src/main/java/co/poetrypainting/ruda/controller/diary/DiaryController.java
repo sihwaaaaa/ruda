@@ -1,6 +1,9 @@
 package co.poetrypainting.ruda.controller.diary;
 
 import co.poetrypainting.ruda.service.diary.DiaryService;
+
+import java.sql.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +26,16 @@ public class DiaryController {
     @Autowired
     private DiaryService diaryService;
 
-    @GetMapping("/write")
-    public String Write(Model model) {
+    @GetMapping("/write/{ownerDate}")
+    public String Write(Model model, @PathVariable Long ownerDate) {
+        Date date = new Date(ownerDate);
         model.addAttribute("color", diaryService.getColor());
+        model.addAttribute("ownerDate", date);
+        model.addAttribute("ownerDateType",ownerDate);
         return "diary/write";
     }
-
-    @PostMapping("/write")
+    
+    @PostMapping("/write/{ownerDate}")
     public String write(DiaryVo vo) {
         diaryService.register(vo);
         return "redirect:/";
