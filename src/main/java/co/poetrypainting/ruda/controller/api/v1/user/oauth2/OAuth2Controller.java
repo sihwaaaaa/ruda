@@ -38,4 +38,10 @@ public class OAuth2Controller {
         logger.info("callback");
         return "redirect:/api/v1/user/signup";
     }
+
+    @GetMapping("kakao/test")
+    public void test(){
+        String accessToken =kakaoService.GetAccessToken(1);
+        logger.info("[+| AccessToken : {}",accessToken);
+    }
 }
