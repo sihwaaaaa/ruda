@@ -1,8 +1,11 @@
 package co.poetrypainting.ruda.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import co.poetrypainting.ruda.domain.ColorDto;
 import co.poetrypainting.ruda.domain.DiaryVo;
@@ -14,4 +17,9 @@ public interface DiaryMapper {
     DiaryVo selectByPrimaryKey(Long diaryNo);
     String getColorCode(Long getColorNo);
     List<DiaryVo> selectDiaryList();
+    List<DiaryVo> searchDiaryListLatest(Map<String, Object> parameters);
+
+    List<DiaryVo> searchDiaryListOldest(Map<String, Object> parameters);
+
+    int countSearchDiary(String keyword);
 }

@@ -5,31 +5,7 @@ uri="http://java.sun.com/jsp/jstl/core"%> <%@ taglib prefix="fmt"
 uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="ko">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>루다 - 루틴다이어리</title>
-    <!-- calendar css -->
-    <link href="../../resources/css/fullcalendar.css" rel="stylesheet" />
-    <link href="../../resources/css/calendar.css" rel="stylesheet" />
-    <link
-      href="../../resources/css/fullcalendar.print.css"
-      rel="stylesheet"
-      media="print"
-    />
-    <!-- Custom fonts for this template-->
-    <link
-      href="../../resources/vendor/fontawesome-free/css/all.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-      rel="stylesheet"
-    />
-
-    <!-- Custom styles for this template-->
-    <link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet" />
+    <jsp:include page="includes/head.jsp"/>
     <!-- 사용자 정의 스타일 추가 -->
     <style>
       /*달력의 크기 설정*/
@@ -136,96 +112,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
   <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-      <!-- Sidebar -->
-      <ul
-        class="navbar-nav sidebar sidebar-dark accordion"
-        style="box-shadow: 1px 1px 3px 1px rgb(0 0 0 / 8%); z-index: 999"
-        id="accordionSidebar"
-      >
-        <!-- Sidebar - Brand -->
-        <a
-          class="sidebar-brand d-flex align-items-center justify-content-center m-3"
-          style="height: 8.375rem; padding: 0"
-          href="/"
-        >
-          <img
-            class="img-fluid"
-            style="max-width: 70%; margin: 20px 0"
-            src="../../resources/ruda_img/logo.png"
-          />
-        </a>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0" />
-        <!-- Topbar Search -->
-        <form
-          class="d-none d-sm-inline-block form-inline mx-5 my-5 mw-100 navbar-search"
-        >
-          <div
-            class="input-group"
-            style="box-shadow: 1px 1px rgba(0, 0, 0, 0.2); border-radius: 6px"
-          >
-            <input
-              type="text"
-              class="form-control bg-light border-0 small"
-              placeholder="Search for..."
-              aria-label="Search"
-              aria-describedby="basic-addon2"
-            />
-            <div class="input-group-append">
-              <button
-                class="btn"
-                style="background-color: #fbc91b; border-color: #fbc91b"
-                type="button"
-              >
-                <i class="fas fa-search fa-sm" style="color: #fff"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-
-        <!-- Content Row -->
-        <div class="">
-          <!-- Pending Requests Card Example -->
-          <div class="m-4" style="height: 120px">
-            <div class="card border-left-warning shadow h-100 py-2">
-              <div class="card-body">
-                <div class="d-flex justify-content-center">
-                  <div
-                    class="px-3 text-center"
-                    id="keyword-content"
-                    style="color: black"
-                  >
-                    오늘의 루틴은 작성하셨나요?
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="-none d-md-inline mt-auto" style="margin-bottom: 120px">
-          <div class="d-flex justify-content-center">
-            <div
-              id="set-alram"
-              style="
-                width: 120px;
-                height: 40px;
-                border-radius: 30px;
-                border: 1px solid #fbc91b;
-                box-shadow: 1px 1px rgba(0, 0, 0, 0.2);
-                color: #555;
-              "
-              class="bg-light d-flex align-items-center justify-content-center btn"
-            >
-              <i class="fas fa-cog"></i>
-              <span class="pl-3">알람설정</span>
-            </div>
-          </div>
-        </div>
-      </ul>
-      <!-- End of Sidebar -->
+      <jsp:include page="includes/nav.jsp"/>
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
@@ -235,7 +122,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
             <div id="wrap" class="d-flex justify-content-center">
               <div class="calendar">
                 <div class="header">
-                  <div class="year-month"></div>
+                  <div class="year-month" style="color: black"></div>
                   <div class="nav">
                     <button class="nav-btn go-prev" onclick="prevMonth()">
                       &lt;
@@ -272,413 +159,171 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         </div>
         <!-- End of Main Content -->
 
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright &copy; Ruda 2023</span>
-            </div>
-          </div>
-        </footer>
-        <!-- End of Footer -->
-      </div>
-      <!-- End of Content Wrapper -->
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- remove Modal -->
-    <div
-      class="modal fade"
-      id="remove-modal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLongTitle"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog"
-        style="margin-top: 300px; min-height: 300px; min-width: 600px"
-        role="document"
-      >
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title ml-4 my-2" id="exampleModalLongTitle">
-              알람 시간 변경
-            </h3>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-body ml-4 my-2">
-            <h4>이제 여기에 시간 설정</h4>
-          </div>
-
-          <div class="modal-footer">
-            <div
-              type="button"
-              class="btn btn-secondary px-4 py-2"
-              data-dismiss="modal"
-            >
-              닫기
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="../../resources/vendor/jquery/jquery.min.js"></script>
-    <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="../../resources/img/jssb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="../../resources/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="../../resources/img/jsdemo/chart-area-demo.js"></script>
-    <script src="../../resources/img/jsdemo/chart-pie-demo.js"></script>
-    <!-- calendar script -->
-    <!-- calendar script -->
-
-    <!-- <script
-      src="../../resources/vendor/calendar/jquery-ui.custom.min.js"
-      type="text/javascript"
-    ></script>
-    <script
-      src="../../resources/vendor/calendar/fullcalendar.js"
-      type="text/javascript"
-    ></script> -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <jsp:include page="includes/footer.jsp"/>
     <script>
-                          $(document).ready(function () {
-                            // 이 부분은 다음과 같이 수정합니다.
-                            diaryList=${diaryList};
-                    console.log(diaryList);
-                            $(".dates").on("click", ".date", function () {
-                               // 이전에 적용한 스타일 초기화
-      $(".dates .date").css("background-color", "");
-                              $(this).css("background-color", "#fbc91b");
-                              var dateText = $(this).children("span").text();
-                              var yearMonthText;
-
-                              if ($(this).children("span").hasClass("other")) {
-                                yearMonthText = $(".year-month")
-                                  .text()
-                                  .replace(/(\d+)월/, function (match, p1) {
-                                    var adjustedMonth =
-                                      parseInt(p1, 10) + (parseInt(dateText, 10) >= 15 ? -1 : 1);
-                                    return adjustedMonth + "월";
-                                  });
-                              } else {
-                                yearMonthText = $(".year-month").text();
-                              }
-                              var yearMonth = yearMonthText.match(/\d+/g);
-                              var dateString = yearMonth[0] + "-" + yearMonth[1] + "-" + dateText;
-                              console.log(dateString);
-                              var diaryContent;
-                              // timestamp 형식의 날짜
-
-
-        // 'yyyy-mm-dd' 형식의 문자열 날짜
-        var dateArray = dateString.split('-');
-        var yyyy = parseInt(dateArray[0], 10);
-        var mm = parseInt(dateArray[1], 10) - 1; // 월은 0부터 시작하므로 1을 빼줍니다.
-        var dd = parseInt(dateArray[2], 10);
-
-        var stringDate = new Date(yyyy, mm, dd);
-              diaryList.forEach(element => {
-                var timestampDate = new Date(element.ownerDate);
-                let now = new Date();
-                timestampDate.setHours(0, 0, 0, 0);
-                stringDate.setHours(0, 0, 0, 0);
-                now.setHours(0, 0, 0, 0);
-                var diaryNo = String(element.diaryNo);
-                if (timestampDate.getTime() === stringDate.getTime()) {
-                  $("#keyword-content").html(`<h6 class="mb-3">`+element.keyword+`</h6><div><a href="/diary/`+ diaryNo+`">루틴 보러가기➜</a></div>`);
-                }else if(   stringDate.getTime() === now.getTime() ||
-                stringDate.getTime() === now.getTime() - 24 * 60 * 60 * 1000){
-                  $("#keyword-content").html(`<h6 class='mb-3'>작성된 루틴이 없어요😞</h6><div><a href='/diary/write/`+stringDate.getTime()+`'>루틴 작성하러 가기➜</a></div>`);
-                }else{
-                  $("#keyword-content").html("<h6 class='mb-3'>작성된 루틴이 없어요😞</h6>");
-                }
-              });
-
-
-
-                            });
-
-                            // Date 객체 생성
-                            let date = new Date();
-                            window.prevMonth = () => {
-                              date.setMonth(date.getMonth() - 1);
-                              renderCalendar();
-                            };
-
-                            window.nextMonth = () => {
-                              date.setMonth(date.getMonth() + 1);
-                              renderCalendar();
-                            };
-
-                            window.goToday = () => {
-                              date = new Date();
-                              renderCalendar();
-                            };
-
-                            const renderCalendar = () => {
-                              const viewYear = date.getFullYear();
-                              const viewMonth = date.getMonth();
-                              const viewMonthViewer = viewMonth + 1;
-
-                              // year-month 채우기
-                              document.querySelector(".year-month").textContent =
-                                viewYear + `년 ` + viewMonthViewer + `월`;
-
-                              // 지난 달 마지막 Date, 이번 달 마지막 Date
-                              const prevLast = new Date(viewYear, viewMonth, 0);
-                              const thisLast = new Date(viewYear, viewMonth + 1, 0);
-
-                              const PLDate = prevLast.getDate();
-                              const PLDay = prevLast.getDay();
-
-                              const TLDate = thisLast.getDate();
-                              const TLDay = thisLast.getDay();
-
-                              // Dates 기본 배열들
-                              const prevDates = [];
-                              const thisDates = [...Array(TLDate + 1).keys()].slice(1);
-                              const nextDates = [];
-
-                              // prevDates 계산
-                              if (PLDay !== 6) {
-                                for (let i = 0; i < PLDay + 1; i++) {
-                                  prevDates.unshift(PLDate - i);
-                                }
-                              }
-
-                              // nextDates 계산
-                              for (let i = 1; i < 7 - TLDay; i++) {
-                                nextDates.push(i);
-                              }
-
-                              // Dates 합치기
-                              const dates = prevDates.concat(thisDates, nextDates);
-                              // Dates 정리
-                              const firstDateIndex = dates.indexOf(1);
-                              const lastDateIndex = dates.lastIndexOf(TLDate);
-                              dates.forEach((date, i) => {
-                                const condition =
-                                  i >= firstDateIndex && i < lastDateIndex + 1 ? "this" : "other";
-
-                                dates[i] =
-                                  `<div class="date"><span class="` +
-                                  condition +
-                                  `">` +
-                                  date +
-                                  `</span>` +
-                                  // `<h6>여기에 키워드 </h6>` +
-                                  `</div>`;
-                              });
-
-                              // Dates 그리기
-                              document.querySelector(".dates").innerHTML = dates.join("");
-                              // 오늘 날짜 그리기
-                              const today = new Date();
-                              //오늘 날짜에 맞는 Date 객체 생성
-                              if (
-                                viewMonth === today.getMonth() &&
-                                viewYear === today.getFullYear()
-                              ) {
-                                //viewMonth와 viewYear가 today와 동일한지 비교
-                                for (let date of document.querySelectorAll(".this")) {
-                                  //동일한 경우 this 클래스 가진 태그 다 찾아내고
-                                  if (+date.innerText === today.getDate()) {
-                                    //해당 태그의 문자 값을 숫자로 변경해 오늘 날짜오 비교하고
-                                    date.classList.add("today");
-                                    //today 클래스 부여
-                                    break;
-                                    //today는 한개 뿐이라 더이상 탐색 필요 없으니 탈출
-                                  }
-                                }
-                              }
-                            };
-
-                            renderCalendar();
-                          });
-    </script>
-
-    <!-- 달력 템플릿 -->
-    <!-- <script>
       $(document).ready(function () {
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
 
-        /*  className colors
-  
-      className: default(transparent), important(red), chill(pink), success(green), info(blue)
-  
-      */
+        diaryList = ${diaryList};
+console.log(diaryList);
 
-        /* initialize the external events
-      -----------------------------------------------------------------*/
+$(".dates").on("click", ".date", function () {
+    // 이전에 적용한 스타일 초기화
+    $(".dates .date").css("background-color", "");
+    $(this).css("background-color", "#fbc91b");
 
-        $("#external-events div.external-event").each(function () {
-          // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-          // it doesn't need to have a start or end
-          var eventObject = {
-            title: $.trim($(this).text()), // use the element's text as the event title
+    var dateText = $(this).children("span").text();
+    var yearMonthText;
+
+    if ($(this).children("span").hasClass("other")) {
+        yearMonthText = $(".year-month")
+            .text()
+            .replace(/(\d+)월/, function (match, p1) {
+                var adjustedMonth =
+                    parseInt(p1, 10) + (parseInt(dateText, 10) >= 15 ? -1 : 1);
+                return adjustedMonth + "월";
+            });
+    } else {
+        yearMonthText = $(".year-month").text();
+    }
+
+    var yearMonth = yearMonthText.match(/\d+/g);
+    var dateString = yearMonth[0] + "-" + yearMonth[1] + "-" + dateText;
+    console.log(dateString);
+
+    // 'yyyy-mm-dd' 형식의 문자열 날짜
+    var dateArray = dateString.split('-');
+    var yyyy = parseInt(dateArray[0], 10);
+    var mm = parseInt(dateArray[1], 10) - 1; // 월은 0부터 시작하므로 1을 빼줍니다.
+    var dd = parseInt(dateArray[2], 10);
+
+    var stringDate = new Date(yyyy, mm, dd);
+    
+    var foundDiary = false;
+
+    diaryList.forEach(element => {
+        var timestampDate = new Date(element.ownerDate);
+        timestampDate.setHours(0, 0, 0, 0);
+
+        if (timestampDate.getTime() === stringDate.getTime()) {
+            // 해당 날짜의 루틴이 있을 경우 처리
+            $("#keyword-content").html(`<h6 class="mb-3">` + element.keyword + `</h6><div><a href="/diary/` + element.diaryNo + `">루틴 보러가기➜</a></div>`);
+            foundDiary = true;
+        }
+    });
+
+    if (!foundDiary) {
+        let now = new Date();
+        now.setHours(0, 0, 0, 0);
+
+        if (stringDate.getTime() === now.getTime() || stringDate.getTime() === now.getTime() - 24 * 60 * 60 * 1000) {
+            // 선택한 날짜가 오늘이거나 어제인 경우 처리
+            $("#keyword-content").html(`<h6 class='mb-3'>작성된 루틴이 없어요😞</h6><div><a href='/diary/write/` + stringDate.getTime() + `'>루틴 작성하러 가기➜</a></div>`);
+        } else {
+            // 그 외의 경우 처리
+            $("#keyword-content").html("<h6 class='mb-3'>작성된 루틴이 없어요😞</h6>");
+        }
+    }
+});
+
+          // Date 객체 생성
+          let date = new Date();
+
+          window.prevMonth = () => {
+              date.setMonth(date.getMonth() - 1);
+              renderCalendar();
           };
 
-          // store the Event Object in the DOM element so we can get to it later
-          $(this).data("eventObject", eventObject);
+          window.nextMonth = () => {
+              date.setMonth(date.getMonth() + 1);
+              renderCalendar();
+          };
 
-          // make the event draggable using jQuery UI
-          $(this).draggable({
-            zIndex: 999,
-            revert: true, // will cause the event to go back to its
-            revertDuration: 0, //  original position after the drag
-          });
-        });
+          window.goToday = () => {
+              date = new Date();
+              renderCalendar();
+          };
 
-        /* initialize the calendar
-      -----------------------------------------------------------------*/
+          const renderCalendar = () => {
+              const viewYear = date.getFullYear();
+              const viewMonth = date.getMonth();
+              const viewMonthViewer = viewMonth + 1;
 
-        var calendar = $("#calendar").fullCalendar({
-          header: {
-            left: "title",
-            right: "prev,next today",
-          },
-          editable: true,
-          firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
-          selectable: true,
-          defaultView: "month",
+              // year-month 채우기
+              document.querySelector(".year-month").textContent =
+                  viewYear + `년 ` + viewMonthViewer + `월`;
 
-          axisFormat: "h:mm",
-          columnFormat: {
-            month: "ddd", // Mon
-            week: "ddd d", // Mon 7
-            day: "dddd M/d", // Monday 9/7
-            agendaDay: "dddd d",
-          },
-          titleFormat: {
-            month: "yyyy년 MM월", // September 2009
-            week: "MMMM yyyy", // September 2009
-            day: "MMMM yyyy", // Tuesday, Sep 8, 2009
-          },
-          allDaySlot: false,
-          selectHelper: true,
-          select: function (start, end, allDay) {
-            var title = prompt("Event Title:");
-            if (title) {
-              calendar.fullCalendar(
-                "renderEvent",
-                {
-                  title: title,
-                  start: start,
-                  end: end,
-                  allDay: allDay,
-                },
-                true // make the event "stick"
-              );
-            }
-            calendar.fullCalendar("unselect");
-          },
-          droppable: true, // this allows things to be dropped onto the calendar !!!
-          drop: function (date, allDay) {
-            // this function is called when something is dropped
+              // 지난 달 마지막 Date, 이번 달 마지막 Date
+              const prevLast = new Date(viewYear, viewMonth, 0);
+              const thisLast = new Date(viewYear, viewMonth + 1, 0);
 
-            // retrieve the dropped element's stored Event Object
-            var originalEventObject = $(this).data("eventObject");
+              const PLDate = prevLast.getDate();
+              const PLDay = prevLast.getDay();
 
-            // we need to copy it, so that multiple events don't have a reference to the same object
-            var copiedEventObject = $.extend({}, originalEventObject);
+              const TLDate = thisLast.getDate();
+              const TLDay = thisLast.getDay();
 
-            // assign it the date that was reported
-            copiedEventObject.start = date;
-            copiedEventObject.allDay = allDay;
+              // Dates 기본 배열들
+              const prevDates = [];
+              const thisDates = [...Array(TLDate + 1).keys()].slice(1);
+              const nextDates = [];
 
-            // render the event on the calendar
-            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-            $("#calendar").fullCalendar("renderEvent", copiedEventObject, true);
+              // prevDates 계산
+              if (PLDay !== 6) {
+                  for (let i = 0; i < PLDay + 1; i++) {
+                      prevDates.unshift(PLDate - i);
+                  }
+              }
 
-            // is the "remove after drop" checkbox checked?
-            if ($("#drop-remove").is(":checked")) {
-              // if so, remove the element from the "Draggable Events" list
-              $(this).remove();
-            }
-          },
+              // nextDates 계산
+              for (let i = 1; i < 7 - TLDay; i++) {
+                  nextDates.push(i);
+              }
 
-          events: [
-            {
-              title: "All Day Event",
-              start: new Date(y, m, 1),
-            },
-            {
-              id: 999,
-              title: "Repeating Event",
-              start: new Date(y, m, d - 3, 16, 0),
-              allDay: false,
-              className: "info",
-            },
-            {
-              id: 999,
-              title: "Repeating Event",
-              start: new Date(y, m, d + 4, 16, 0),
-              allDay: false,
-              className: "info",
-            },
-            {
-              title: "Meeting",
-              start: new Date(y, m, d, 10, 30),
-              allDay: false,
-              className: "important",
-            },
-            {
-              title: "Lunch",
-              start: new Date(y, m, d, 12, 0),
-              end: new Date(y, m, d, 14, 0),
-              allDay: false,
-              className: "important",
-            },
-            {
-              title: "Birthday Party",
-              start: new Date(y, m, d + 1, 19, 0),
-              end: new Date(y, m, d + 1, 22, 30),
-              allDay: false,
-            },
-            {
-              title: "Click for Google",
-              start: new Date(y, m, 28),
-              end: new Date(y, m, 29),
-              url: "http://google.com/",
-              className: "success",
-            },
-          ],
-        });
-      });
-    </script> -->
-    <!-- 알람 모달 -->
-    <script>
-      $(function () {
-        $("#set-alram").click(function () {
-          $("#remove-modal").modal("show");
-        });
+              // Dates 합치기
+              const dates = prevDates.concat(thisDates, nextDates);
+
+              // Dates 정리
+              const firstDateIndex = dates.indexOf(1);
+              const lastDateIndex = dates.lastIndexOf(TLDate);
+
+              dates.forEach((date, i) => {
+                  const condition =
+                      i >= firstDateIndex && i < lastDateIndex + 1 ? "this" : "other";
+
+                  dates[i] =
+                      `<div class="date"><span class="` +
+                      condition +
+                      `">` +
+                      date +
+                      `</span>` +
+                      `</div>`;
+              });
+
+              // Dates 그리기
+              document.querySelector(".dates").innerHTML = dates.join("");
+
+              // 오늘 날짜 그리기
+              const today = new Date();
+              //오늘 날짜에 맞는 Date 객체 생성
+              if (
+                  viewMonth === today.getMonth() &&
+                  viewYear === today.getFullYear()
+              ) {
+                  //viewMonth와 viewYear가 today와 동일한지 비교
+                  for (let date of document.querySelectorAll(".this")) {
+                      //동일한 경우 this 클래스 가진 태그 다 찾아내고
+                      if (+date.innerText === today.getDate()) {
+                          //해당 태그의 문자 값을 숫자로 변경해 오늘 날짜오 비교하고
+                          date.classList.add("today");
+                          //today 클래스 부여
+                          break;
+                          //today는 한개 뿐이라 더이상 탐색 필요 없으니 탈출
+                      }
+                  }
+              }
+          };
+
+          renderCalendar();
       });
     </script>
   </body>

@@ -20,4 +20,33 @@
     <select id="selectDiaryList" resultType="co.poetrypainting.ruda.domain.DiaryVo">
 		select * from tbl_diary where diaryNo > 0
 	</select>
+<select id="searchDiaryList" resultType="co.poetrypainting.ruda.domain.DiaryVo">
+    select * from tbl_diary where keyword like CONCAT('%', #{keyword}, '%')
+</select>
+
+<select id="countSearchResults" resultType="int">
+    select count(*) from tbl_diary where keyword like CONCAT('%', #{keyword}, '%')
+</select>
+<select id="searchDiaryListLatest" resultType="co.poetrypainting.ruda.domain.DiaryVo" parameterType="map">
+    SELECT *
+    FROM tbl_diary
+    WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
+    ORDER BY ownerDate DESC
+    LIMIT #{offset}, #{limit}
+</select>
+
+<select id="searchDiaryListOldest" resultType="co.poetrypainting.ruda.domain.DiaryVo" parameterType="map">
+    SELECT *
+    FROM tbl_diary
+    WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
+    ORDER BY ownerDate ASC
+    LIMIT #{offset}, #{limit}
+</select>
+
+<select id="countSearchDiary" resultType="int" parameterType="String">
+    SELECT COUNT(*)
+    FROM tbl_diary
+    WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
+</select>
+
 </mapper>

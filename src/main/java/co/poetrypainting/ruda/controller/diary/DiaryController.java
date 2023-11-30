@@ -3,6 +3,7 @@ package co.poetrypainting.ruda.controller.diary;
 import co.poetrypainting.ruda.service.diary.DiaryService;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import co.poetrypainting.ruda.domain.DiaryVo;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -50,7 +52,31 @@ public class DiaryController {
         model.addAttribute("color", diaryService.getColorCode(diaryService.get(diaryNo).getColorNo()));
         return "diary/read";
     }
-
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "q", required = false) String query,
+                         @RequestParam(name = "sortOrder", defaultValue = "latest") String sortOrder,
+                         @RequestParam(name = "page", defaultValue = "1") int page,
+                         Model model) {
+        int pageSize = 5; // 한 페이지에 보여질 아이템 수
+        int offset = (page - 1) * pageSize; // offset 계산
+    
+        if (query != null) {
+            // query가 null이 아닌 경우에 처리
+            model.addAttribute("keyword", query);
+    
+            // TODO: 정렬 순서에 따라 diaryList를 가져오는 로직 추가
+            List<DiaryVo> diaryList = diaryService.searchDiaryList(query, offset, pageSize, sortOrder);
+            model.addAttribute("diaryList", diaryList);
+    
+            // 페이징 처리
+            int totalCount = diaryService.countSearchDiary(query);
+            int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
+        }
+    
+        return "diary/search";
+    }
     // @GetMapping("{bno}")
     // public String getByPath(Model model, @PathVariable Long bno, HttpSession session){
     // 	MemberVO member = (MemberVO) session.getAttribute("loginMember");

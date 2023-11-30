@@ -11,4 +11,7 @@ public interface DiaryService {
     DiaryVo get(Long diaryNo);
     String getColorCode(Long getColorNo);
     String getDiaryList();
+    List<DiaryVo> searchDiaryList(String keyword, int offset, int limit, String sortOrder);
+
+    int countSearchDiary(String keyword);
 } 

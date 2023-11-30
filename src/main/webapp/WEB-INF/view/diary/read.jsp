@@ -5,130 +5,13 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>루다 - 루틴다이어리</title>
-    <!-- calendar css -->
-    <link href="../../resources/css/fullcalendar.css" rel="stylesheet" />
-    <link href="../../resources/css/calendar.css" rel="stylesheet" />
-    <link
-      href="../../resources/css/fullcalendar.print.css"
-      rel="stylesheet"
-      media="print"
-    />
-    <!-- Custom fonts for this template-->
-    <link
-      href="../../resources/vendor/fontawesome-free/css/all.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-      rel="stylesheet"
-    />
-
-    <!-- Custom styles for this template-->
-    <link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet" />
+    <jsp:include page="../includes/head.jsp"/>
   </head>
 
   <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
-      <!-- Sidebar -->
-      <ul
-        class="navbar-nav sidebar sidebar-dark accordion"
-        style="box-shadow: 1px 1px 3px 1px rgb(0 0 0 / 8%); z-index: 999"
-        id="accordionSidebar"
-      >
-        <!-- Sidebar - Brand -->
-        <a
-          class="sidebar-brand d-flex align-items-center justify-content-center m-3"
-          style="height: 8.375rem; padding: 0"
-          href="/"
-        >
-          <img
-            class="img-fluid"
-            style="max-width: 70%; margin: 20px 0"
-            src="../../resources/ruda_img/logo.png"
-          />
-        </a>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0" />
-        <!-- Topbar Search -->
-        <form
-          class="d-none d-sm-inline-block form-inline mx-5 my-5 mw-100 navbar-search"
-        >
-          <div
-            class="input-group"
-            style="box-shadow: 1px 1px rgba(0, 0, 0, 0.2); border-radius: 6px"
-          >
-            <input
-              type="text"
-              class="form-control bg-light border-0 small"
-              placeholder="Search for..."
-              aria-label="Search"
-              aria-describedby="basic-addon2"
-            />
-            <div class="input-group-append">
-              <button
-                class="btn"
-                style="background-color: #fbc91b; border-color: #fbc91b"
-                type="button"
-              >
-                <i class="fas fa-search fa-sm" style="color: #fff"></i>
-              </button>
-            </div>
-          </div>
-        </form>
-
-        <!-- Content Row -->
-        <div class="">
-          <!-- Pending Requests Card Example -->
-          <div class="m-4" style="height: 250px">
-            <div class="card border-left-warning shadow h-100 py-2">
-              <div class="card-body">
-                <h4 class="small font-weight-bold">
-                  Customer Database <span class="float-right">60%</span>
-                </h4>
-                <div class="progress mb-4">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 60%"
-                    aria-valuenow="60"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="-none d-md-inline mt-auto" style="margin-bottom: 120px">
-          <div class="d-flex justify-content-center">
-            <div
-              id="set-alram"
-              style="
-                width: 120px;
-                height: 40px;
-                border-radius: 30px;
-                border: 1px solid #fbc91b;
-                box-shadow: 1px 1px rgba(0, 0, 0, 0.2);
-                color: #555;
-              "
-              class="bg-light d-flex align-items-center justify-content-center btn"
-            >
-              <i class="fas fa-cog"></i>
-              <span class="pl-3">알람설정</span>
-            </div>
-          </div>
-        </div>
-      </ul>
-      <!-- End of Sidebar -->
-
+      <jsp:include page="../includes/nav.jsp"/>
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column bg-white">
         <!-- Main Content -->
@@ -211,7 +94,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                             <c:when test="${diary.emotion == 'angry'}">
                               <i class="far fa-angry fa-3x mx-4"></i>
                             </c:when>
-                            <c:when test=" ${diary.emotion == 'sad'}">
+                            <c:when test="${diary.emotion == 'sad'}">
                               <i class="far fa-sad-tear fa-3x mx-4"></i>
                             </c:when>
                           </c:choose>
@@ -247,7 +130,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                           class="btn btn-secondary mx-5"
                           style="width: 100px"
                         >
-                          뒤로
+                          메인으로
                         </div>
                       </a>
                     </div>
@@ -258,110 +141,14 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
           </div>
         </div>
         <!-- End of Main Content -->
+        <script src="../../resources/js/ckeditor.js"></script>
+        <script>
+          ClassicEditor.create(document.querySelector("#editor"), {});
+        </script>
+    
+        <jsp:include page="../includes/footer.jsp"/>
 
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright &copy; Ruda 2023</span>
-            </div>
-          </div>
-        </footer>
-        <!-- End of Footer -->
-      </div>
-      <!-- End of Content Wrapper -->
-    </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- remove Modal -->
-    <div
-      class="modal fade"
-      id="remove-modal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLongTitle"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog"
-        style="margin-top: 300px; min-height: 300px; min-width: 600px"
-        role="document"
-      >
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title ml-4 my-2" id="exampleModalLongTitle">
-              알람 시간 변경
-            </h3>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-body ml-4 my-2">
-            <h4>이제 여기에 시간 설정</h4>
-          </div>
-
-          <div class="modal-footer">
-            <div
-              type="button"
-              class="btn btn-secondary px-4 py-2"
-              data-dismiss="modal"
-            >
-              닫기
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script src="../../resources/js/ckeditor.js"></script>
-    <script>
-      ClassicEditor.create(document.querySelector("#editor"), {});
-    </script>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="../../resources/vendor/jquery/jquery.min.js"></script>
-    <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="../../resources/img/jssb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="../../resources/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="../../resources/img/jsdemo/chart-area-demo.js"></script>
-    <script src="../../resources/img/jsdemo/chart-pie-demo.js"></script>
-    <!-- calendar script -->
-
-    <script
-      src="../../resources/vendor/calendar/jquery-ui.custom.min.js"
-      type="text/javascript"
-    ></script>
-    <script
-      src="../../resources/vendor/calendar/fullcalendar.js"
-      type="text/javascript"
-    ></script>
-    <!-- 알람 모달 -->
-    <script>
-      $(function () {
-        $("#set-alram").click(function () {
-          $("#remove-modal").modal("show");
-        });
-      });
-    </script>
+    
   </body>
 </html>
