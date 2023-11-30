@@ -29,7 +29,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         role="dialog"
         aria-labelledby="exampleModalLongTitle"
         aria-hidden="true"
-      >
+      ><form id="alarm-form" action="/alarm" method="post">
         <div
           class="modal-dialog"
           style="margin-top: 300px; min-height: 300px; min-width: 600px"
@@ -49,22 +49,18 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-  
-            <div class="modal-body ml-4 my-2">
-              <h4>이제 여기에 시간 설정</h4>
+            
+            <div class="modal-body ml-4 my-2 d-flex justify-content-center">
+              <input type="time" id="time-input" name="alarmTime"class="form-control" style="width: 300px; height: 60px; cursor: pointer; font-size: 20px;">
             </div>
-  
             <div class="modal-footer">
-              <div
-                type="button"
-                class="btn btn-secondary px-4 py-2"
-                data-dismiss="modal"
-              >
-                닫기
-              </div>
+              <button type="button" class="btn btn-secondary px-4 py-2" data-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-warning px-4 py-2" onclick="saveTime()">저장</button>
             </div>
+
           </div>
         </div>
+      </form>
       </div>
 
   
@@ -94,15 +90,25 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         src="../../resources/vendor/calendar/fullcalendar.js"
         type="text/javascript"
       ></script>
-      <!-- 알람 모달 -->
       <script>
+        //알람 시간 설정
+          function saveTime() {
+  
+    var selectedTime = $('#time-input').val();
+    console.log('선택된 시간:', selectedTime);
+
+    // 폼을 submit
+    //$('#alarm-form').submit();
+  }
         $(function () {
+        
+          //모달
           $("#set-alram").click(function () {
             $("#remove-modal").modal("show");
           });
         });
         $("#search-input").on("keydown", function(event) {
-    // 13은 엔터 키의 keyCode입니다.
+    //검색
     if (event.keyCode === 13) {
         event.preventDefault(); // 폼 제출 방지
         searchFunction();

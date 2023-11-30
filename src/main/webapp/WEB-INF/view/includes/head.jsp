@@ -27,3 +27,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- Custom styles for this template-->
 <link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet" />
+<!-- 파비콘 -->
+<link
+  rel="icon"
+  type="image/png"
+  href="../../../resources/ruda_img/imglogo.png-removebg-preview.png"
+/>
