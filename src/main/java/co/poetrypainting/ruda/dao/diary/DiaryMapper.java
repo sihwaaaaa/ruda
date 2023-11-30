@@ -1,6 +1,7 @@
 package co.poetrypainting.ruda.dao.diary;
 
 import java.util.List;
+
 import co.poetrypainting.ruda.domain.color.ColorDto;
 import co.poetrypainting.ruda.domain.diary.DiaryVo;
 import org.springframework.stereotype.Repository;

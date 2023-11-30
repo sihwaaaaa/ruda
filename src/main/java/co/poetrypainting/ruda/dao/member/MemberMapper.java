@@ -1,0 +1,20 @@
+package co.poetrypainting.ruda.dao.member;
+
+import co.poetrypainting.ruda.domain.kakao.KakaoToken;
+import co.poetrypainting.ruda.domain.kakao.KakaoUserInfo;
+import co.poetrypainting.ruda.domain.member.MemberInfo;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MemberMapper {
+    MemberInfo getMemberInfo(String email);
+
+    void insertMember(KakaoUserInfo kakaoUserInfo) throws Exception;
+
+    void insertUserToken(KakaoToken kakaoToken) throws Exception;
+
+    void updateUserToken(KakaoToken kakaoToken) throws Exception;
+
+    String getAccessToken(int memberNo);
+}
