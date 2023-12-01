@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="co.poetrypainting.ruda.mapper.DiaryMapper">
+<mapper namespace="co.poetrypainting.ruda.dao.diary.DiaryMapper">
     <insert id="insert">
         insert into tbl_diary (weather,emotion,keyword,content,colorNo,memberNo,ownerDate)
         values(#{weather},#{emotion},#{keyword},#{content},#{colorNo},1,#{ownerDate})

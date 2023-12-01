@@ -1,4 +1,4 @@
-package co.poetrypainting.ruda.mapper;
+package co.poetrypainting.ruda.dao.diary;
 
 import java.util.List;
 import java.util.Map;
