@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.poetrypainting.ruda.dao.member.MemberMapper">
+    <select id="findByEmail" resultType="co.poetrypainting.ruda.domain.member.MemberInfo">
+        /* MemberMapper.findByEmail */
+        SELECT memberNo, name, email, password, role, nickname, profileImage, thumbnailImage
+        FROM tbl_member
+        WHERE email = #{email}
+    </select>
+
     <select id="getMemberInfo" resultType="co.poetrypainting.ruda.domain.member.MemberInfo">
         /* MemberMapper.getMemberInfo */
         SELECT memberNo, name, email, nickname, profileImage, thumbnailImage
@@ -17,8 +24,8 @@
 
     <insert id="insertMember" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoUserInfo">
         /* MemberMapper.insertMember */
-        INSERT INTO tbl_member (name, email, nickname, profileImage, thumbnailImage, createdDate, updatedDate)
-        VALUES (#{nickname}, #{email}, #{nickname}, #{profileImage}, #{thumbnailImage}, now(), now())
+        INSERT INTO tbl_member (name, email, password, role, nickname, profileImage, thumbnailImage, createdDate, updatedDate)
+        VALUES (#{nickname}, #{email}, #{email}, #{role}, #{nickname}, #{profileImage}, #{thumbnailImage}, now(), now())
     </insert>
 
     <insert id="insertUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">

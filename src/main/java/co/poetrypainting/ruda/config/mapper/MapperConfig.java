@@ -1,4 +1,4 @@
-package co.poetrypainting.ruda.config;
+package co.poetrypainting.ruda.config.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;

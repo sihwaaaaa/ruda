@@ -9,6 +9,8 @@ public class MemberInfo {
     private int memberNo;
     private String name;
     private String email;
+    private String password;
+    private Role role;
     private String nickname;
     private String profileImage;
     private String thumbnailImage;

@@ -4,11 +4,16 @@ import co.poetrypainting.ruda.dao.member.MemberMapper;
 import co.poetrypainting.ruda.domain.kakao.KakaoToken;
 import co.poetrypainting.ruda.domain.kakao.KakaoUserInfo;
 import co.poetrypainting.ruda.domain.member.MemberInfo;
+import co.poetrypainting.ruda.domain.member.Role;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,9 +25,15 @@ import java.net.http.HttpResponse;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements UserDetailsService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MemberMapper memberMapper;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        MemberInfo memberInfo = memberMapper.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("member is not exist..."));
+        return User.builder().username(memberInfo.getEmail()).password(memberInfo.getPassword()).roles(memberInfo.getRole().name()).build();
+    }
 
     public void Login(String authorize_code) {
         String BASE_URI = "http://localhost:8080/api/v1/user/kakao";
@@ -72,6 +83,7 @@ public class MemberService {
     public MemberInfo SignUp(KakaoUserInfo kakaoUserInfo) {
         // member 생성
         try {
+            kakaoUserInfo.setRole(Role.USER);
             memberMapper.insertMember(kakaoUserInfo);
         } catch (Exception exception) {
             logger.error(exception.toString());

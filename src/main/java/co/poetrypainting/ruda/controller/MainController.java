@@ -28,7 +28,7 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/signin")
     public String login(Model model){
         model.addAttribute("AUTHORIZATION_URI",AUTHORIZATION_URI);
         model.addAttribute("CLIENT_ID",CLIENT_ID);

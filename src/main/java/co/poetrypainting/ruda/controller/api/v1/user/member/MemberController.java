@@ -17,28 +17,15 @@ public class MemberController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MemberService memberService;
 
-    /**
-     * ruda Login
-     *
-     * @param authorize_code Kakao Authorization code
-     */
+    @GetMapping("/test")
+    public String test(){
+        logger.info("test");
+        return "test";
+    }
+
     @GetMapping("/login")
     public void login(@RequestParam("code") String authorize_code) {
         memberService.Login(authorize_code);
-
-//        // kakao api get token
-//        KakaoToken kakaoToken = kakaoService.GetKakaoToken(code);
-//        if (kakaoToken == null) {
-//            return "redirect:/error";
-//        }
-//
-//        // kakao api get user info
-//        KakaoUserInfo kakaoUserInfo = kakaoService.GetUserAllInfo(kakaoToken.getAccessToken());
-//        if (kakaoUserInfo == null) {
-//            return "redirect:/error";
-//        }
-//
-//        return "redirect:/";
     }
 
     @PostMapping("/regist/token")
