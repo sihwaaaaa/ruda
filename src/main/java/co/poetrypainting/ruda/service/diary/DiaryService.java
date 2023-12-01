@@ -24,6 +24,7 @@ public class DiaryService {
     private final DiaryMapper diaryMapper;
 
     public void register(DiaryVo vo) {
+        logger.info("regist diary: {}",vo);
         diaryMapper.insert(vo);
     }
 

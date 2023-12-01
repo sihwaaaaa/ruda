@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class DiaryVo {
     private Long diaryNo;
     private String weather;
@@ -19,6 +17,4 @@ public class DiaryVo {
     private Date regDate;
     private Long memberNo;
     private Date ownerDate;
-    
-    
 }
