@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import co.poetrypainting.ruda.domain.ColorDto;
-import co.poetrypainting.ruda.domain.DiaryVo;
 import co.poetrypainting.ruda.dao.diary.DiaryMapper;
 import lombok.extern.slf4j.Slf4j;
+import co.poetrypainting.ruda.domain.color.ColorDto;
+import co.poetrypainting.ruda.domain.diary.DiaryVo;
 
 @Slf4j
 @Service

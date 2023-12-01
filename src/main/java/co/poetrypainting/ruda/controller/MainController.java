@@ -33,14 +33,11 @@ public class MainController {
     
     @GetMapping("/")
     public String home(Model model){
-        //로그인 검증 필요
-        
-        
         model.addAttribute("diaryList",diaryService.getDiaryList());
         return "index";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/signin")
     public String login(Model model){
         model.addAttribute("AUTHORIZATION_URI",AUTHORIZATION_URI);
         model.addAttribute("CLIENT_ID",CLIENT_ID);

@@ -1,4 +1,4 @@
-package co.poetrypainting.ruda.domain;
+package co.poetrypainting.ruda.domain.color;
 
 import org.apache.ibatis.type.Alias;
 

@@ -10,4 +10,3 @@ import org.springframework.stereotype.Repository;
 @MapperScan(basePackages = "co.poetrypainting.ruda.dao", annotationClass = Repository.class)
 public class MapperConfig {
 }
-

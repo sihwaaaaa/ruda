@@ -1,4 +1,4 @@
-package co.poetrypainting.ruda.domain;
+package co.poetrypainting.ruda.domain.diary;
 
 import java.util.Date;
 

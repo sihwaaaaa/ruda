@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.poetrypainting.ruda.dao.diary.DiaryMapper">
-    <insert id="insert" parameterType="co.poetrypainting.ruda.domain.DiaryVo">
+    <insert id="insert" parameterType="co.poetrypainting.ruda.domain.diary.DiaryVo">
         /* DiaryMapper.insert */
         INSERT INTO tbl_diary (weather,emotion,keyword,content,colorNo,memberNo,ownerDate)
         VALUES (#{weather},#{emotion},#{keyword},#{content},#{colorNo},1,#{ownerDate})
     </insert>
 
-    <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.ColorDto">
+    <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.color.ColorDto">
         /* DiaryMapper.selectColorDto */
         SELECT *
         FROM tbl_color
         WHERE colorNo > 0
     </select>
 
-    <select id="selectByPrimaryKey" resultType="co.poetrypainting.ruda.domain.DiaryVo">
+    <select id="selectByPrimaryKey" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo">
         /* DiaryMapper.selectByPrimaryKey */
         SELECT *
         FROM tbl_diary
@@ -31,14 +28,14 @@
         WHERE colorNo = #{getColorNo}
     </select>
 
-    <select id="selectDiaryList" resultType="co.poetrypainting.ruda.domain.DiaryVo">
+    <select id="selectDiaryList" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo">
         /* DiaryMapper.selectDiaryList */
         SELECT *
         FROM tbl_diary
         WHERE diaryNo > 0
     </select>
 
-    <select id="searchDiaryList" resultType="co.poetrypainting.ruda.domain.DiaryVo">
+    <select id="searchDiaryList" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo">
         /* DiaryMapper.searchDiaryList */
         SELECT *
         FROM tbl_diary
@@ -52,7 +49,7 @@
         WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
-    <select id="searchDiaryListLatest" resultType="co.poetrypainting.ruda.domain.DiaryVo" parameterType="map">
+    <select id="searchDiaryListLatest" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo" parameterType="map">
         /* DiaryMapper.searchDiaryListLatest */
         SELECT *
         FROM tbl_diary
@@ -61,7 +58,7 @@
         LIMIT #{offset}, #{limit}
     </select>
 
-    <select id="searchDiaryListOldest" resultType="co.poetrypainting.ruda.domain.DiaryVo" parameterType="map">
+    <select id="searchDiaryListOldest" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo" parameterType="map">
         /* DiaryMapper.searchDiaryListOldest */
         SELECT *
         FROM tbl_diary
@@ -75,5 +72,4 @@
         FROM tbl_diary
         WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
     </select>
-
 </mapper>
