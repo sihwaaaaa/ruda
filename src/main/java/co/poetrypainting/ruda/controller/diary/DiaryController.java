@@ -26,6 +26,12 @@ public class DiaryController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final DiaryService diaryService;
 
+    @GetMapping("/")
+    public String home(Model model){
+        model.addAttribute("diaryList",diaryService.getDiaryList());
+        return "index";
+    }
+
     @GetMapping("/write/{ownerDate}")
     public String Write(Model model, @PathVariable Long ownerDate) {
         Date date = new Date(ownerDate);

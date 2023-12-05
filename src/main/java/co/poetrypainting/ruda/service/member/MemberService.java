@@ -1,11 +1,15 @@
 package co.poetrypainting.ruda.service.member;
 
+import co.poetrypainting.ruda.config.security.JwtFilter;
+import co.poetrypainting.ruda.config.security.JwtProvider;
+import co.poetrypainting.ruda.config.security.SecurityConfig;
 import co.poetrypainting.ruda.dao.member.MemberMapper;
 import co.poetrypainting.ruda.domain.kakao.KakaoToken;
 import co.poetrypainting.ruda.domain.kakao.KakaoUserInfo;
 import co.poetrypainting.ruda.domain.member.MemberInfo;
 import co.poetrypainting.ruda.domain.member.Role;
 import com.google.gson.Gson;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -35,10 +39,9 @@ public class MemberService implements UserDetailsService {
         return User.builder().username(memberInfo.getEmail()).password(memberInfo.getPassword()).roles(memberInfo.getRole().name()).build();
     }
 
-    public void Login(String authorize_code) {
+    public String Login(String authorize_code) {
         String BASE_URI = "http://localhost:8080/api/v1/user/kakao";
         Gson gson = new Gson();
-
         try {
             HttpClient client = HttpClient.newHttpClient();
 
@@ -71,8 +74,11 @@ public class MemberService implements UserDetailsService {
 
             // regist token
             RegistToken(kakaoToken);
+            return JwtProvider.CreateToken(memberInfo.getEmail());
+
         } catch (Exception exception) {
             logger.error(exception.toString());
+            return null;
         }
     }
 
@@ -106,5 +112,11 @@ public class MemberService implements UserDetailsService {
         } catch (Exception exception) {
             logger.error(exception.getCause().toString());
         }
+    }
+
+    public String Test(){
+        String token =JwtProvider.CreateToken("chapakook@kakao.com");
+        logger.info("token: {}",token);
+        return token;
     }
 }

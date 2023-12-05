@@ -1,28 +1,27 @@
 package co.poetrypainting.ruda.config.security;
 
-import co.poetrypainting.ruda.service.member.MemberService;
+import co.poetrypainting.ruda.domain.member.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.crypto.SecretKey;
 import java.io.PrintWriter;
 
 @Slf4j
@@ -30,7 +29,8 @@ import java.io.PrintWriter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final MemberService memberService;
+    public static final SecretKey key = Jwts.SIG.HS256.key().build();
+    private final JwtFilter jwtFilter;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -45,30 +45,32 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .cors(AbstractHttpConfigurer::disable)
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers(
-                                        new AntPathRequestMatcher("/signin")
-                                ).permitAll()
-                                .anyRequest().authenticated()
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/"),
+                                new AntPathRequestMatcher("/login"),
+                                new AntPathRequestMatcher("/api-test"),
+                                new AntPathRequestMatcher("/api/v1/user/**")
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionConfig -> exceptionConfig
                         .authenticationEntryPoint(unauthorizedEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler)
                 )
                 .securityContext(AbstractHttpConfigurer::disable)
-//                .formLogin(formLogin -> formLogin
-//                        .loginPage("/signin")
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
-//                        .loginProcessingUrl("/api/v1/user/member/signin")
-//                        .defaultSuccessUrl("/", true)
-//                )
+                .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/user/login")
+                        .logoutSuccessUrl("/login")
                 );
-//                .userDetailsService(memberService);
+
         return http.build();
     }
 

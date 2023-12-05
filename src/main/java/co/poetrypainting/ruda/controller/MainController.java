@@ -1,21 +1,22 @@
 package co.poetrypainting.ruda.controller;
 
+import ch.qos.logback.core.testUtil.TeeOutputStream;
+import co.poetrypainting.ruda.service.member.MemberService;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import co.poetrypainting.ruda.service.diary.DiaryService;
-
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class MainController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -28,20 +29,25 @@ public class MainController {
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String REDIRECT_URI;
 
-    @Autowired
-    private DiaryService diaryService;
-    
+    private final MemberService memberService;
+
     @GetMapping("/")
-    public String home(Model model){
-        model.addAttribute("diaryList",diaryService.getDiaryList());
-        return "index";
+    public String home() {
+        return "redirect:/login";
     }
 
-    @GetMapping("/signin")
-    public String login(Model model){
-        model.addAttribute("AUTHORIZATION_URI",AUTHORIZATION_URI);
-        model.addAttribute("CLIENT_ID",CLIENT_ID);
-        model.addAttribute("REDIRECT_URI",REDIRECT_URI);
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("AUTHORIZATION_URI", AUTHORIZATION_URI);
+        model.addAttribute("CLIENT_ID", CLIENT_ID);
+        model.addAttribute("REDIRECT_URI", REDIRECT_URI);
         return "login";
+    }
+
+    @GetMapping("/api-test")
+    public ResponseEntity<String> test(HttpServletResponse response) {
+        String jwt = memberService.Test();
+        response.addHeader("Authorization", "Bearer "+jwt);
+        return ResponseEntity.ok(jwt);
     }
 }
