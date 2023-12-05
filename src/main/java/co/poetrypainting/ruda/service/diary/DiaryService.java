@@ -1,9 +1,11 @@
 package co.poetrypainting.ruda.service.diary;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import co.poetrypainting.ruda.config.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +26,7 @@ public class DiaryService {
     private final DiaryMapper diaryMapper;
 
     public void register(DiaryVo vo) {
-        logger.info("regist diary: {}",vo);
+        logger.info("regist diary: {}", vo);
         diaryMapper.insert(vo);
     }
 
@@ -71,5 +73,10 @@ public class DiaryService {
 
     public int countSearchDiary(String keyword) {
         return diaryMapper.countSearchDiary(keyword);
+    }
+
+    public void findEmailByToken(String token){
+        String jwt = new String(Base64.getDecoder().decode(token.getBytes()));
+        String Email = JwtProvider.GetEmail(jwt);
     }
 }

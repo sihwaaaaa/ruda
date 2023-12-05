@@ -1,6 +1,5 @@
 package co.poetrypainting.ruda.config.security;
 
-import co.poetrypainting.ruda.domain.member.Role;
 import co.poetrypainting.ruda.service.member.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -8,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -36,13 +34,13 @@ public class JwtFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         // Header의 Authorization 값이 비어있으면 => Jwt Token을 전송하지 않음 => 로그인 하지 않음
-        if(authorizationHeader == null) {
+        if (authorizationHeader == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
         // Header의 Authorization 값이 'Bearer '로 시작하지 않으면 => 잘못된 토큰
-        if(!authorizationHeader.startsWith("Bearer ")) {
+        if (!authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -51,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = authorizationHeader.split(" ")[1];
 
         // 전송받은 Jwt Token이 만료되었으면 => 다음 필터 진행(인증 X)
-        if(JwtProvider.IsExpired(token)) {
+        if (JwtProvider.IsExpired(token)) {
             filterChain.doFilter(request, response);
             return;
         }

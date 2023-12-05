@@ -1,15 +1,12 @@
 package co.poetrypainting.ruda.service.member;
 
-import co.poetrypainting.ruda.config.security.JwtFilter;
 import co.poetrypainting.ruda.config.security.JwtProvider;
-import co.poetrypainting.ruda.config.security.SecurityConfig;
 import co.poetrypainting.ruda.dao.member.MemberMapper;
 import co.poetrypainting.ruda.domain.kakao.KakaoToken;
 import co.poetrypainting.ruda.domain.kakao.KakaoUserInfo;
 import co.poetrypainting.ruda.domain.member.MemberInfo;
 import co.poetrypainting.ruda.domain.member.Role;
 import com.google.gson.Gson;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -25,6 +22,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Base64;
 
 @Slf4j
 @Service
@@ -112,11 +110,5 @@ public class MemberService implements UserDetailsService {
         } catch (Exception exception) {
             logger.error(exception.getCause().toString());
         }
-    }
-
-    public String Test(){
-        String token =JwtProvider.CreateToken("chapakook@kakao.com");
-        logger.info("token: {}",token);
-        return token;
     }
 }

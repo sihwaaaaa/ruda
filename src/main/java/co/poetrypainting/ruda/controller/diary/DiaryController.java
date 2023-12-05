@@ -26,9 +26,10 @@ public class DiaryController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final DiaryService diaryService;
 
-    @GetMapping("/")
-    public String home(Model model){
-        model.addAttribute("diaryList",diaryService.getDiaryList());
+    @GetMapping("")
+    public String home(Model model, @RequestParam("token") String token) {
+        model.addAttribute("diaryList", diaryService.getDiaryList());
+        model.addAttribute("token", token);
         return "index";
     }
 

@@ -8,8 +8,10 @@ import lombok.Data;
 public class KakaoUserInfo {
     private int memberNo;
     private String nickname;
-    @SerializedName("profile_image") private String profileImage;
-    @SerializedName("thumbnail_image") private String thumbnailImage;
+    @SerializedName("profile_image")
+    private String profileImage;
+    @SerializedName("thumbnail_image")
+    private String thumbnailImage;
     private String name;
     private String email;
     private Role role;

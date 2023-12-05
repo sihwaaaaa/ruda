@@ -71,7 +71,7 @@ public class KakaoService {
             }
 
             // json parsing
-            kakaoToken = gson.fromJson(response.body(),KakaoToken.class);
+            kakaoToken = gson.fromJson(response.body(), KakaoToken.class);
         } catch (Exception exception) {
             logger.error(exception.toString());
         }
@@ -118,7 +118,7 @@ public class KakaoService {
         return gson.toJson(userInfo);
     }
 
-    public void RegistUserToken(){
+    public void RegistUserToken() {
 
     }
 }

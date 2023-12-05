@@ -1,6 +1,5 @@
 package co.poetrypainting.ruda.config.security;
 
-import co.poetrypainting.ruda.domain.member.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import lombok.Getter;
@@ -20,6 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.SecretKey;
 import java.io.PrintWriter;
@@ -47,7 +49,7 @@ public class SecurityConfig {
         http
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(configurationSource()))
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -56,6 +58,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/login"),
+                                new AntPathRequestMatcher("/diary"),
                                 new AntPathRequestMatcher("/api-test"),
                                 new AntPathRequestMatcher("/api/v1/user/**")
                         ).permitAll()
@@ -72,6 +75,18 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    private CorsConfigurationSource configurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*"); // 허용할 URL
+        config.addAllowedHeader("*"); // 허용할 Header
+        config.addAllowedMethod("*"); // 허용할 Http Method
+        config.addExposedHeader("Authorization");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     private final AuthenticationEntryPoint unauthorizedEntryPoint = (request, response, authException) -> {

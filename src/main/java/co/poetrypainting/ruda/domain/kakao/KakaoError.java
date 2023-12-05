@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class KakaoError {
     private String error;
-    @SerializedName("error_description")private String description;
-    @SerializedName("error_code")private String code;
+    @SerializedName("error_description")
+    private String description;
+    @SerializedName("error_code")
+    private String code;
 }

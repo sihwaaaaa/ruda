@@ -2,9 +2,7 @@ package co.poetrypainting.ruda.domain.diary;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class DiaryVo {

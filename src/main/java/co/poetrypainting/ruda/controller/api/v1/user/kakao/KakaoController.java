@@ -1,7 +1,5 @@
 package co.poetrypainting.ruda.controller.api.v1.user.kakao;
 
-import co.poetrypainting.ruda.domain.kakao.KakaoToken;
-import co.poetrypainting.ruda.domain.kakao.KakaoUserInfo;
 import co.poetrypainting.ruda.service.kakao.KakaoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
