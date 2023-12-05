@@ -36,6 +36,13 @@ public class KakaoService {
     @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
     private String USER_INFO_URI;
 
+    @Value("${spring.security.oauth2.client.provider.kakao.talk-memo}")
+    private String TALK_MEMO;
+
+    @Value("${spring.security.oauth2.client.provider.kakao.template-id}")
+    private String TEMPLATE_ID;
+    private final Gson gson = new Gson();
+
     /**
      * Kakao 인가코드받기를 통해 받은 인가코드를 이용
      * 토큰을 받아오는 서비스
@@ -43,7 +50,6 @@ public class KakaoService {
      * @param authorizeCode kakao login callback 으로 받은 authorize code
      */
     public String GetKakaoToken(String authorizeCode) {
-        Gson gson = new Gson();
         KakaoToken kakaoToken = new KakaoToken();
 
         try {
@@ -120,5 +126,32 @@ public class KakaoService {
 
     public void RegistUserToken() {
 
+    }
+
+    public void SendAlarm(String accessToken){
+        try {
+            // uri 생성
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(TALK_MEMO)
+                    .queryParam("template_id", TEMPLATE_ID);
+
+            // client 및 request 생성
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(uriComponentsBuilder.toUriString()))
+                    .headers(
+                            "Content-Type", "application/x-www-form-urlencoded",
+                            "Authorization", String.format("Bearer %s",accessToken)
+                    )
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            // kakao api call
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                logger.error(response.body());
+            }
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
     }
 }

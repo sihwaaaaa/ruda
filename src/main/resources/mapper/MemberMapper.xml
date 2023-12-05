@@ -3,7 +3,14 @@
 <mapper namespace="co.poetrypainting.ruda.dao.member.MemberMapper">
     <select id="findByEmail" resultType="co.poetrypainting.ruda.domain.member.MemberInfo">
         /* MemberMapper.findByEmail */
-        SELECT memberNo, name, email, password, role, nickname, profileImage, thumbnailImage
+        SELECT memberNo,
+               name,
+               email,
+               password,
+               role,
+               nickname,
+               profileImage,
+               thumbnailImage
         FROM tbl_member
         WHERE email = #{email}
     </select>
@@ -22,9 +29,16 @@
         WHERE memberNo = #{memberNo}
     </select>
 
+    <select id="getAlarmList" resultType="co.poetrypainting.ruda.domain.alarm.Alarm">
+        /* MemberMapper.getAlarmList */
+        SELECT memberNo, alarmTime
+        FROM tbl_alarmtime
+    </select>
+
     <insert id="insertMember" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoUserInfo">
         /* MemberMapper.insertMember */
-        INSERT INTO tbl_member (name, email, password, role, nickname, profileImage, thumbnailImage, createdDate, updatedDate)
+        INSERT INTO tbl_member (name, email, password, role, nickname, profileImage, thumbnailImage, createdDate,
+                                updatedDate)
         VALUES (#{nickname}, #{email}, #{email}, #{role}, #{nickname}, #{profileImage}, #{thumbnailImage}, now(), now())
     </insert>
 
@@ -33,6 +47,12 @@
         INSERT INTO tbl_repository (memberNo, accessToken, expiresIn, refreshToken, refreshTokenExpiresIn, createdDate,
                                     updatedDate)
         VALUES (#{memberNo}, #{accessToken}, #{expiresIn}, #{refreshToken}, #{refreshTokenExpiresIn}, now(), now())
+    </insert>
+
+    <insert id="insertDefaultAlarm" parameterType="int">
+        /* MemberMapper.insertDefaultAlarm */
+        INSERT INTO tbl_alarmtime (memberNo, alarmTime)
+        VALUES (#{memberNo}, '17:00:00')
     </insert>
 
     <update id="updateUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">

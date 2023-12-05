@@ -2,6 +2,7 @@ package co.poetrypainting.ruda.service.member;
 
 import co.poetrypainting.ruda.config.security.JwtProvider;
 import co.poetrypainting.ruda.dao.member.MemberMapper;
+import co.poetrypainting.ruda.domain.alarm.Alarm;
 import co.poetrypainting.ruda.domain.kakao.KakaoToken;
 import co.poetrypainting.ruda.domain.kakao.KakaoUserInfo;
 import co.poetrypainting.ruda.domain.member.MemberInfo;
@@ -23,6 +24,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Base64;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -73,7 +75,6 @@ public class MemberService implements UserDetailsService {
             // regist token
             RegistToken(kakaoToken);
             return JwtProvider.CreateToken(memberInfo.getEmail());
-
         } catch (Exception exception) {
             logger.error(exception.toString());
             return null;
@@ -89,6 +90,8 @@ public class MemberService implements UserDetailsService {
         try {
             kakaoUserInfo.setRole(Role.USER);
             memberMapper.insertMember(kakaoUserInfo);
+            MemberInfo memberInfo = memberMapper.getMemberInfo(kakaoUserInfo.getEmail());
+            memberMapper.insertDefaultAlarm(memberInfo.getMemberNo());
         } catch (Exception exception) {
             logger.error(exception.toString());
             return null;
@@ -110,5 +113,13 @@ public class MemberService implements UserDetailsService {
         } catch (Exception exception) {
             logger.error(exception.getCause().toString());
         }
+    }
+
+    public List<Alarm> GetAlarmList() {
+        return memberMapper.getAlarmList();
+    }
+
+    public String GetKakaoToken(int memberNo) {
+        return memberMapper.getAccessToken(memberNo);
     }
 }
