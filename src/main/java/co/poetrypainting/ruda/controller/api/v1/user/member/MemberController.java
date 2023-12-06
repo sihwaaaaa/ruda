@@ -27,8 +27,13 @@ public class MemberController {
         return String.format("redirect:/diary?token=%s", Base64.getEncoder().encodeToString(jwt.getBytes()));
     }
 
-    @PostMapping("/regist/token")
-    public void RegistUserToken() {
-        logger.info("[+| API CALL Regist Token - /api/v1/user/kakao/regist/token");
+    @GetMapping("/regist/token")
+    public void RegistUserToken(@RequestParam("email") String email) {
+        logger.info("[+| API CALL Refresh Token - /api/v1/user/kakao/regist/token");
+        if (memberService.RefreshToken(email)){
+            logger.info("  | Refresh Token Success");
+        }else {
+            logger.error("  | Refresh Token Failure");
+        }
     }
 }

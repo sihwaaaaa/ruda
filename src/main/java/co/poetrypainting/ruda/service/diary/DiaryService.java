@@ -75,7 +75,7 @@ public class DiaryService {
         return diaryMapper.countSearchDiary(keyword);
     }
 
-    public void findEmailByToken(String token){
+    public void findEmailByToken(String token) {
         String jwt = new String(Base64.getDecoder().decode(token.getBytes()));
         String Email = JwtProvider.GetEmail(jwt);
     }

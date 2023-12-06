@@ -43,4 +43,17 @@ public class KakaoController {
         String kakaoUserInfo = kakaoService.GetUserAllInfo(access_token);
         return new ResponseEntity<>(kakaoUserInfo, null, kakaoUserInfo != null ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
     }
+
+    /**
+     * Kakao Token Refresh API
+     *
+     * @param refresh_token kakao refresh token
+     * @return KakaoToken
+     */
+    @GetMapping("/get/refresh-token")
+    public ResponseEntity<String> RefreshToken(@RequestParam("refresh_token") String refresh_token) {
+        logger.info("[+| API CALL Get UserInfo - /api/v1/user/kakao/get/refresh-token");
+        String body = kakaoService.RefreshKakaoToken(refresh_token);
+        return new ResponseEntity<>(body, null, body != null ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
+    }
 }

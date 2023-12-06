@@ -19,6 +19,8 @@ public interface MemberMapper {
 
     String getAccessToken(int memberNo);
 
+    String getRefreshToken(String email);
+
     void insertMember(KakaoUserInfo kakaoUserInfo) throws Exception;
 
     void insertUserToken(KakaoToken kakaoToken) throws Exception;

@@ -23,7 +23,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Base64;
 import java.util.List;
 
 @Slf4j
@@ -32,6 +31,9 @@ import java.util.List;
 public class MemberService implements UserDetailsService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MemberMapper memberMapper;
+    private final Gson gson = new Gson();
+    private final String BASE_URI = "http://localhost:8080/api/v1/user/kakao";
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -40,8 +42,6 @@ public class MemberService implements UserDetailsService {
     }
 
     public String Login(String authorize_code) {
-        String BASE_URI = "http://localhost:8080/api/v1/user/kakao";
-        Gson gson = new Gson();
         try {
             HttpClient client = HttpClient.newHttpClient();
 
@@ -50,7 +50,7 @@ public class MemberService implements UserDetailsService {
                     .queryParam("authorize_code", authorize_code);
 
             HttpRequest getTokenReq = HttpRequest.newBuilder()
-                    .uri(new URI(getTokenUri.toUriString()))
+                    .uri(URI.create(getTokenUri.toUriString()))
                     .GET().build();
 
             HttpResponse<String> getTokenResp = client.send(getTokenReq, HttpResponse.BodyHandlers.ofString());
@@ -61,7 +61,7 @@ public class MemberService implements UserDetailsService {
                     .queryParam("access_token", kakaoToken.getAccessToken());
 
             HttpRequest getUserInfoReq = HttpRequest.newBuilder()
-                    .uri(new URI(getUserInfoUri.toUriString()))
+                    .uri(URI.create(getUserInfoUri.toUriString()))
                     .GET().build();
 
             HttpResponse<String> getUserInfoResp = client.send(getUserInfoReq, HttpResponse.BodyHandlers.ofString());
@@ -112,6 +112,29 @@ public class MemberService implements UserDetailsService {
             }
         } catch (Exception exception) {
             logger.error(exception.getCause().toString());
+        }
+    }
+
+    public boolean RefreshToken(String email) {
+        // get refreshToken
+        String refreshToken = memberMapper.getRefreshToken(email);
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+
+            UriComponentsBuilder getRefreshToken = UriComponentsBuilder.fromHttpUrl(BASE_URI + "/get/refresh-token")
+                    .queryParam("refresh_token", refreshToken);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(getRefreshToken.toUriString()))
+                    .GET().build();
+
+            HttpResponse<String> getUserInfoResp = client.send(request, HttpResponse.BodyHandlers.ofString());
+            KakaoToken kakaoToken = gson.fromJson(getUserInfoResp.body(), KakaoToken.class);
+
+            RegistToken(kakaoToken);
+            return true;
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+            return false;
         }
     }
 

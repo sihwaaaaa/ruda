@@ -29,6 +29,8 @@ public class AlarmScheduler {
 
     /**
      * 1분마다 도는 scheduler memeber에게 alarm을 보낸다.
+     *
+     * @fixedDelay 60000ms 1분 마다 실행
      */
     @Scheduled(fixedDelay = 60000)
     public void something() {
@@ -51,7 +53,6 @@ public class AlarmScheduler {
         for (Integer memberNo : memberList) {
             kakaoService.SendAlarm(memberService.GetKakaoToken(memberNo));
         }
-
         logger.info("  | alarm scheduler finish");
     }
 

@@ -18,32 +18,35 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class KakaoService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    private final Gson gson = new Gson();
     @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
     private String TOKEN_URI;
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String CLIENT_ID;
     @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
     private String CLIENT_SECRET;
+    @Value("${spring.security.oauth2.client.registration.kakao.admin-key}")
+    private String ADMIN_KEY;
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String REDIRECT_URI;
     @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
     private String USER_INFO_URI;
-
     @Value("${spring.security.oauth2.client.provider.kakao.talk-memo}")
     private String TALK_MEMO;
-
     @Value("${spring.security.oauth2.client.provider.kakao.template-id}")
     private String TEMPLATE_ID;
-    private final Gson gson = new Gson();
+    @Value("${spring.security.oauth2.client.provider.kakao.logout-uri}")
+    private String LOGOUT_URI;
+    @Value("${spring.security.oauth2.client.provider.kakao.kakao-logout}")
+    private String KAKAO_LOGOUT;
+    @Value("${spring.security.oauth2.client.provider.kakao.unlink}")
+    private String UNLINK;
 
     /**
      * Kakao 인가코드받기를 통해 받은 인가코드를 이용
@@ -87,7 +90,6 @@ public class KakaoService {
         return gson.toJson(kakaoToken);
     }
 
-
     /**
      * get kakao user all info service
      *
@@ -126,11 +128,37 @@ public class KakaoService {
         return gson.toJson(userInfo);
     }
 
-    public void RegistUserToken() {
+    public String RefreshKakaoToken(String refreshToken) {
+        try {
+            // uri 생성
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(TOKEN_URI)
+                    .queryParam("grant_type", "refresh_token")
+                    .queryParam("client_id", CLIENT_ID)
+                    .queryParam("refresh_token", refreshToken)
+                    .queryParam("client_secret", CLIENT_SECRET);
 
+            // client 및 request 생성
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(uriComponentsBuilder.toUriString()))
+                    .headers("Content-Type", "application/x-www-form-urlencoded")
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            // kakao api call
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                logger.error(response.body());
+            }
+
+            return response.body();
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+        return null;
     }
 
-    public void SendAlarm(String accessToken){
+    public void SendAlarm(String accessToken) {
         try {
             // uri 생성
             UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(TALK_MEMO)
@@ -142,7 +170,131 @@ public class KakaoService {
                     .uri(URI.create(uriComponentsBuilder.toUriString()))
                     .headers(
                             "Content-Type", "application/x-www-form-urlencoded",
-                            "Authorization", String.format("Bearer %s",accessToken)
+                            "Authorization", String.format("Bearer %s", accessToken)
+                    )
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            // kakao api call
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                logger.error(response.body());
+            }
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+    }
+
+    /**
+     * logout without kakao
+     *
+     * @param accessToken kakao access token
+     * @param userId      userid
+     */
+    public void Logout(String accessToken, long userId) {
+        try {
+            // uri 생성
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(LOGOUT_URI)
+                    .queryParam("target_id_type", "user_id")
+                    .queryParam("target_id", userId);
+
+            // client 및 request 생성
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(uriComponentsBuilder.toUriString()))
+                    .headers(
+                            "Content-Type", "application/x-www-form-urlencoded",
+                            "Authorization", String.format("Bearer %s", accessToken)
+                    )
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            // kakao api call
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                logger.error(response.body());
+            }
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+    }
+
+    /**
+     * logout with kakao
+     *
+     * @param accessToken kakao access token
+     */
+    public void LogoutWithKakao(String accessToken) {
+        try {
+            // uri 생성
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_LOGOUT)
+                    .queryParam("client_id", CLIENT_ID)
+                    .queryParam("logout_redirect_uri", "/");
+
+            // client 및 request 생성
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(uriComponentsBuilder.toUriString()))
+                    .GET()
+                    .build();
+
+            // kakao api call
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                logger.error(response.body());
+            }
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+    }
+
+    /**
+     * access token을 이용한 연결 해제
+     *
+     * @param accessToken kakao access token
+     */
+    public void Unlink(String accessToken) {
+        try {
+            // client 및 request 생성
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(UNLINK))
+                    .headers(
+                            "Content-Type", "application/x-www-form-urlencoded",
+                            "Authorization", String.format("Bearer %s", accessToken)
+                    )
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            // kakao api call
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                logger.error(response.body());
+            }
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+    }
+
+    /**
+     * Admin Key를 이용 kakao unlink
+     *
+     * @param userId userID가 필요함.
+     */
+    public void Unlink(long userId) {
+        try {
+            // uri 생성
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(UNLINK)
+                    .queryParam("target_id_type", "user_id")
+                    .queryParam("target_id", userId);
+
+            // client 및 request 생성
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(uriComponentsBuilder.toUriString()))
+                    .headers(
+                            "Content-Type", "application/x-www-form-urlencoded",
+                            "Authorization", String.format("KakaoAK %s", ADMIN_KEY)
                     )
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();

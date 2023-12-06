@@ -35,6 +35,14 @@
         FROM tbl_alarmtime
     </select>
 
+    <select id="getRefreshToken" resultType="String" parameterType="String">
+        /* MemberMapper.getRefreshToken */
+        SELECT accessToken
+        FROM tbl_repository repo
+        LEFT JOIN tbl_member tm on repo.memberNo = tm.memberNo
+        WHERE tm.email = #{email}
+    </select>
+
     <insert id="insertMember" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoUserInfo">
         /* MemberMapper.insertMember */
         INSERT INTO tbl_member (name, email, password, role, nickname, profileImage, thumbnailImage, createdDate,
