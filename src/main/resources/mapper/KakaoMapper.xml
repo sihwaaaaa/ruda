@@ -8,12 +8,11 @@
         WHERE memberNo = #{memberNo}
     </select>
 
-    <select id="getRefreshToken" resultType="String" parameterType="String">
+    <select id="getRefreshToken" resultType="String">
         /* KakaoMapper.getRefreshToken */
-        SELECT accessToken
+        SELECT refreshToken
         FROM tbl_repository repo
-        LEFT JOIN tbl_member tm on repo.memberNo = tm.memberNo
-        WHERE tm.email = #{email}
+        WHERE memberNo = #{memberNo}
     </select>
 
     <insert id="insertUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">
@@ -26,11 +25,11 @@
     <update id="updateUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">
         /* KakaoMapper.updateUserToken */
         UPDATE tbl_repository
-        SET accessToken          = #{accessToken},
-            expiresIn= #{expiresIn},
-            refreshToken= #{refreshToken},
-            refreshTokenExpiresIn= #{refreshTokenExpiresIn},
-            updatedDate= now()
+        SET accessToken           = #{accessToken},
+            expiresIn             = #{expiresIn},
+            refreshToken          = #{refreshToken},
+            refreshTokenExpiresIn = #{refreshTokenExpiresIn},
+            updatedDate           = now()
         WHERE memberNo = #{memberNo}
     </update>
 </mapper>

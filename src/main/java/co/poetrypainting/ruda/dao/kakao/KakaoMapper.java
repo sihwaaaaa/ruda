@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 public interface KakaoMapper {
     String getAccessToken(Long memberNo);
 
-    String getRefreshToken(String email);
+    String getRefreshToken(Long memberNo);
 
     void insertUserToken(KakaoToken kakaoToken) throws Exception;
 

@@ -54,4 +54,11 @@
             createdDate = now()
         WHERE memberNo = #{memberNo}
     </update>
+
+    <delete id="deleteLogin" parameterType="Long">
+        /* MemberMapper.deleteLogin */
+        DELETE
+        FROM tbl_login
+        WHERE memberNo = #{memberNo}
+    </delete>
 </mapper>

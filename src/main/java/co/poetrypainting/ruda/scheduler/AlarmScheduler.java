@@ -50,7 +50,7 @@ public class AlarmScheduler {
         }
 
         for (Integer memberNo : memberList) {
-            kakaoService.SendAlarm(memberService.GetKakaoToken(memberNo.longValue()));
+            kakaoService.SendAlarm(memberNo.longValue());
         }
         logger.info("  | alarm scheduler finish");
     }

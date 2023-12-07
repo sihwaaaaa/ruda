@@ -1,5 +1,6 @@
 package co.poetrypainting.ruda.service.kakao;
 
+import co.poetrypainting.ruda.dao.kakao.KakaoMapper;
 import co.poetrypainting.ruda.domain.kakao.KakaoUserInfo;
 import co.poetrypainting.ruda.domain.kakao.KakaoToken;
 import com.google.gson.Gson;
@@ -47,6 +48,8 @@ public class KakaoService {
     private String KAKAO_LOGOUT;
     @Value("${spring.security.oauth2.client.provider.kakao.unlink}")
     private String UNLINK;
+
+    private final KakaoMapper kakaoMapper;
 
     /**
      * Kakao 인가코드받기를 통해 받은 인가코드를 이용
@@ -128,7 +131,7 @@ public class KakaoService {
         return gson.toJson(userInfo);
     }
 
-    public String RefreshKakaoToken(String refreshToken) {
+    public String RefreshKakaoToken(Long memberNo, String refreshToken) {
         try {
             // uri 생성
             UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(TOKEN_URI)
@@ -150,15 +153,18 @@ public class KakaoService {
             if (response.statusCode() != 200) {
                 logger.error(response.body());
             }
-
-            return response.body();
+            KakaoToken kakaoToken = gson.fromJson(response.body(), KakaoToken.class);
+            kakaoToken.setMemberNo(memberNo);
+            kakaoMapper.updateUserToken(kakaoToken);
+            return kakaoToken.getAccessToken();
         } catch (Exception exception) {
             logger.error(exception.toString());
         }
         return null;
     }
 
-    public void SendAlarm(String accessToken) {
+    public void SendAlarm(Long memberNo) {
+        String accessToken = RefreshKakaoToken(memberNo, kakaoMapper.getRefreshToken(memberNo));
         try {
             // uri 생성
             UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(TALK_MEMO)

@@ -21,7 +21,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Base64;
 import java.util.List;
 
 @Slf4j
@@ -33,13 +32,6 @@ public class MemberService {
     private final KakaoMapper kakaoMapper;
     private final Gson gson = new Gson();
     private final String BASE_URI = "http://localhost:8080/api/v1/user/kakao";
-
-
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        MemberInfo memberInfo = memberMapper.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("member is not exist..."));
-//        return User.builder().username(memberInfo.getEmail()).password(memberInfo.getPassword()).roles(memberInfo.getRole().name()).build();
-//    }
 
     public String KakaoLogin(String authorize_code) {
         try {
@@ -142,34 +134,19 @@ public class MemberService {
         }
     }
 
-    public boolean RefreshToken(String email) {
-        // get refreshToken
-        String refreshToken = kakaoMapper.getRefreshToken(email);
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-
-            UriComponentsBuilder getRefreshToken = UriComponentsBuilder.fromHttpUrl(BASE_URI + "/get/refresh-token")
-                    .queryParam("refresh_token", refreshToken);
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(getRefreshToken.toUriString()))
-                    .GET().build();
-
-            HttpResponse<String> getUserInfoResp = client.send(request, HttpResponse.BodyHandlers.ofString());
-            KakaoToken kakaoToken = gson.fromJson(getUserInfoResp.body(), KakaoToken.class);
-
-            RegistToken(kakaoToken);
-            return true;
-        } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            return false;
-        }
-    }
-
     public List<Alarm> GetAlarmList() {
         return memberMapper.getAlarmList();
     }
 
     public String GetKakaoToken(Long memberNo) {
         return kakaoMapper.getAccessToken(memberNo);
+    }
+
+    public void Logout(Long memberNo){
+        try{
+            memberMapper.deleteLogin(memberNo);
+        }catch (Exception exception){
+            logger.error(exception.getMessage());
+        }
     }
 }

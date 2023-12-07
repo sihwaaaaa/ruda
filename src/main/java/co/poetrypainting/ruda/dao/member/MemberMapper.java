@@ -7,11 +7,11 @@ import co.poetrypainting.ruda.domain.member.MemberInfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface MemberMapper {
     MemberInfo getMemberInfo(String email);
+
     Long getMemberNo(String email);
 
     List<Alarm> getAlarmList();
@@ -25,4 +25,6 @@ public interface MemberMapper {
     void insertLogin(Login login) throws Exception;
 
     void updateLogin(Login login) throws Exception;
+
+    void deleteLogin(Long memberNo) throws Exception;
 }

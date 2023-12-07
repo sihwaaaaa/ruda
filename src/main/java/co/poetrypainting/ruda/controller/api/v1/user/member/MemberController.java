@@ -1,7 +1,6 @@
 package co.poetrypainting.ruda.controller.api.v1.user.member;
 
 import co.poetrypainting.ruda.service.member.MemberService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -26,15 +25,5 @@ public class MemberController {
         String jwt = memberService.KakaoLogin(authorize_code);
         String token = Base64.getEncoder().encodeToString(jwt.getBytes());
         return memberService.Login(token) ? String.format("redirect:/diary?token=%s", token) : "redirect:/";
-    }
-
-    @GetMapping("/regist/token")
-    public void RegistUserToken(@RequestParam("email") String email) {
-        logger.info("[+| API CALL Refresh Token - /api/v1/user/kakao/regist/token");
-        if (memberService.RefreshToken(email)) {
-            logger.info("  | Refresh Token Success");
-        } else {
-            logger.error("  | Refresh Token Failure");
-        }
     }
 }

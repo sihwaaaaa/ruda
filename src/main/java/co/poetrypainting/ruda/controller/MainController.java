@@ -1,5 +1,6 @@
 package co.poetrypainting.ruda.controller;
 
+import co.poetrypainting.ruda.config.security.JwtProvider;
 import co.poetrypainting.ruda.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -34,5 +36,12 @@ public class MainController {
         model.addAttribute("CLIENT_ID", CLIENT_ID);
         model.addAttribute("REDIRECT_URI", REDIRECT_URI);
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(@RequestParam("token") String token){
+        Long memberNo = memberService.GetMemberNo(JwtProvider.GetEmail(token));
+        memberService.Logout(memberNo);
+        return "redirect:/";
     }
 }
