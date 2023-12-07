@@ -5,12 +5,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Date;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtProvider {
+    public static final SecretKey key = Jwts.SIG.HS256.key().build();
 
     /**
      * JWT Token 생성
@@ -23,15 +26,16 @@ public class JwtProvider {
         Date now = new Date();
         return Jwts.builder()
                 .subject(email)
-                .signWith(SecurityConfig.key)
+                .signWith(key)
                 .issuedAt(new Date(now.getTime()))
                 .expiration(new Date(now.getTime() + expiredMs))
                 .compact();
     }
 
     public static boolean CheckToken(String token, String email) {
-        return Jwts.parser().verifyWith(SecurityConfig.key).build()
-                .parseSignedClaims(token)
+        String jwt = new String(Base64.getDecoder().decode(token.getBytes()));
+        return Jwts.parser().verifyWith(key).build()
+                .parseSignedClaims(jwt)
                 .getPayload()
                 .getSubject()
                 .equals(email);
@@ -45,15 +49,17 @@ public class JwtProvider {
      * @return 만료 여부 확인 결과
      */
     public static boolean IsExpired(String token) {
-        return Jwts.parser().verifyWith(SecurityConfig.key).build()
-                .parseSignedClaims(token)
+        String jwt = new String(Base64.getDecoder().decode(token.getBytes()));
+        return Jwts.parser().verifyWith(key).build()
+                .parseSignedClaims(jwt)
                 .getPayload()
                 .getExpiration().before(new Date());
     }
 
     public static String GetEmail(String token) {
-        return Jwts.parser().verifyWith(SecurityConfig.key).build()
-                .parseSignedClaims(token)
+        String jwt = new String(Base64.getDecoder().decode(token.getBytes()));
+        return Jwts.parser().verifyWith(key).build()
+                .parseSignedClaims(jwt)
                 .getPayload()
                 .getSubject();
     }

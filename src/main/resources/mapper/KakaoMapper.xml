@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.poetrypainting.ruda.dao.kakao.KakaoMapper">
+    <select id="getAccessToken" resultType="String">
+        /* KakaoMapper.getAccessToken */
+        SELECT accessToken
+        FROM tbl_repository
+        WHERE memberNo = #{memberNo}
+    </select>
+
+    <select id="getRefreshToken" resultType="String" parameterType="String">
+        /* KakaoMapper.getRefreshToken */
+        SELECT accessToken
+        FROM tbl_repository repo
+        LEFT JOIN tbl_member tm on repo.memberNo = tm.memberNo
+        WHERE tm.email = #{email}
+    </select>
+
+    <insert id="insertUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">
+        /* KakaoMapper.insertUserToken */
+        INSERT INTO tbl_repository (memberNo, accessToken, expiresIn, refreshToken, refreshTokenExpiresIn, createdDate,
+                                    updatedDate)
+        VALUES (#{memberNo}, #{accessToken}, #{expiresIn}, #{refreshToken}, #{refreshTokenExpiresIn}, now(), now())
+    </insert>
+
+    <update id="updateUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">
+        /* KakaoMapper.updateUserToken */
+        UPDATE tbl_repository
+        SET accessToken          = #{accessToken},
+            expiresIn= #{expiresIn},
+            refreshToken= #{refreshToken},
+            refreshTokenExpiresIn= #{refreshTokenExpiresIn},
+            updatedDate= now()
+        WHERE memberNo = #{memberNo}
+    </update>
+</mapper>

@@ -21,7 +21,7 @@ public class KakaoToken {
     private int refreshTokenExpiresIn;
 
     // ruda database items
-    private int memberNo;
+    private Long memberNo;
     private Date createdDate;
     private Date updatedDate;
 }

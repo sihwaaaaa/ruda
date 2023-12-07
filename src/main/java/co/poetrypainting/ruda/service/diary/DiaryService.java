@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import co.poetrypainting.ruda.config.security.JwtProvider;
+import co.poetrypainting.ruda.dao.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class DiaryService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final DiaryMapper diaryMapper;
+    private final MemberMapper memberMapper;
 
     public void register(DiaryVo vo) {
         logger.info("regist diary: {}", vo);
@@ -34,8 +36,9 @@ public class DiaryService {
         return diaryMapper.selectColorDto();
     }
 
-    public String getDiaryList() {
-        List<DiaryVo> diaryVos = diaryMapper.selectDiaryList();
+    public String getDiaryList(String token) {
+        String email = JwtProvider.GetEmail(token);
+        List<DiaryVo> diaryVos = diaryMapper.selectDiaryList(memberMapper.getMemberNo(email));
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(diaryVos);
@@ -54,8 +57,9 @@ public class DiaryService {
     }
 
 
-    public List<DiaryVo> searchDiaryList(String keyword, int offset, int limit, String sortOrder) {
+    public List<DiaryVo> searchDiaryList(Long memberNo, String keyword, int offset, int limit, String sortOrder) {
         Map<String, Object> parameters = new HashMap<>();
+        parameters.put("memberNo", memberNo);
         parameters.put("keyword", keyword);
         parameters.put("offset", offset);
         parameters.put("limit", limit);

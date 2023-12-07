@@ -17,7 +17,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     <img
       class="img-fluid"
       style="max-width: 70%; margin: 20px 0"
-      src="../../resources/ruda_img/logo.png"
+      src="../../../resources/ruda_img/logo.png"
     />
   </a>
 

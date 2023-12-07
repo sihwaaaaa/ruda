@@ -22,17 +22,18 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/login")
-    public String login(HttpServletResponse response, @RequestParam("code") String authorize_code) throws IOException {
-        String jwt = memberService.Login(authorize_code);
-        return String.format("redirect:/diary?token=%s", Base64.getEncoder().encodeToString(jwt.getBytes()));
+    public String login(@RequestParam("code") String authorize_code) throws IOException {
+        String jwt = memberService.KakaoLogin(authorize_code);
+        String token = Base64.getEncoder().encodeToString(jwt.getBytes());
+        return memberService.Login(token) ? String.format("redirect:/diary?token=%s", token) : "redirect:/";
     }
 
     @GetMapping("/regist/token")
     public void RegistUserToken(@RequestParam("email") String email) {
         logger.info("[+| API CALL Refresh Token - /api/v1/user/kakao/regist/token");
-        if (memberService.RefreshToken(email)){
+        if (memberService.RefreshToken(email)) {
             logger.info("  | Refresh Token Success");
-        }else {
+        } else {
             logger.error("  | Refresh Token Failure");
         }
     }

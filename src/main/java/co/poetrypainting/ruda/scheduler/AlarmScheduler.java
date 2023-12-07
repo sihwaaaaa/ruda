@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class AlarmScheduler {
         }
 
         for (Integer memberNo : memberList) {
-            kakaoService.SendAlarm(memberService.GetKakaoToken(memberNo));
+            kakaoService.SendAlarm(memberService.GetKakaoToken(memberNo.longValue()));
         }
         logger.info("  | alarm scheduler finish");
     }

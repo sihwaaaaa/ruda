@@ -9,18 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
-@Configuration
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
     private final MemberService memberService;
@@ -58,15 +51,9 @@ public class JwtFilter extends OncePerRequestFilter {
         String email = JwtProvider.GetEmail(token);
 
         // 추출한 loginId로 User 찾아오기
-        User loginMember = (User) memberService.loadUserByUsername(email);
 
         // loginUser 정보로 UsernamePasswordAuthenticationToken 발급
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginMember.getUsername(), null, List.of(new SimpleGrantedAuthority(loginMember.getAuthorities().toString())));
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-        // 권한 부여
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
     }
 }

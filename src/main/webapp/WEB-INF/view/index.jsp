@@ -206,7 +206,7 @@ $(".dates").on("click", ".date", function () {
 
         if (timestampDate.getTime() === stringDate.getTime()) {
             // 해당 날짜의 루틴이 있을 경우 처리
-            $("#keyword-content").html(`<h6 class="mb-3">` + element.keyword + `</h6><div><a href="/diary/` + element.diaryNo + `">루틴 보러가기➜</a></div>`);
+            $("#keyword-content").html(`<h6 class="mb-3">` + element.keyword + `</h6><div><a href="/diary/${token}/` + element.diaryNo + `">루틴 보러가기➜</a></div>`);
             foundDiary = true;
         }
     });
@@ -217,7 +217,7 @@ $(".dates").on("click", ".date", function () {
 
         if (stringDate.getTime() === now.getTime() || stringDate.getTime() === now.getTime() - 24 * 60 * 60 * 1000) {
             // 선택한 날짜가 오늘이거나 어제인 경우 처리
-            $("#keyword-content").html(`<h6 class='mb-3'>작성된 루틴이 없어요😞</h6><div><a href='/diary/write/` + stringDate.getTime() + `'>루틴 작성하러 가기➜</a></div>`);
+            $("#keyword-content").html(`<h6 class='mb-3'>작성된 루틴이 없어요😞</h6><div><a href='/diary/${token}/write/` + stringDate.getTime() + `'>루틴 작성하러 가기➜</a></div>`);
         } else {
             // 그 외의 경우 처리
             $("#keyword-content").html("<h6 class='mb-3'>작성된 루틴이 없어요😞</h6>");

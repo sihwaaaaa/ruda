@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.poetrypainting.ruda.dao.member.MemberMapper">
-    <select id="findByEmail" resultType="co.poetrypainting.ruda.domain.member.MemberInfo">
-        /* MemberMapper.findByEmail */
-        SELECT memberNo,
-               name,
-               email,
-               password,
-               role,
-               nickname,
-               profileImage,
-               thumbnailImage
-        FROM tbl_member
-        WHERE email = #{email}
-    </select>
-
     <select id="getMemberInfo" resultType="co.poetrypainting.ruda.domain.member.MemberInfo">
         /* MemberMapper.getMemberInfo */
         SELECT memberNo, name, email, nickname, profileImage, thumbnailImage
@@ -22,11 +8,11 @@
         WHERE email = #{email}
     </select>
 
-    <select id="getAccessToken" resultType="String">
-        /* MemberMapper.getAccessToken */
-        SELECT accessToken
-        FROM tbl_repository
-        WHERE memberNo = #{memberNo}
+    <select id="getMemberNo" resultType="Long">
+        /* MemberMapper.getMemberNo */
+        SELECT memberNo
+        FROM tbl_member
+        WHERE email = #{email}
     </select>
 
     <select id="getAlarmList" resultType="co.poetrypainting.ruda.domain.alarm.Alarm">
@@ -35,12 +21,11 @@
         FROM tbl_alarmtime
     </select>
 
-    <select id="getRefreshToken" resultType="String" parameterType="String">
-        /* MemberMapper.getRefreshToken */
-        SELECT accessToken
-        FROM tbl_repository repo
-        LEFT JOIN tbl_member tm on repo.memberNo = tm.memberNo
-        WHERE tm.email = #{email}
+    <select id="getLogin" resultType="co.poetrypainting.ruda.domain.member.Login">
+        /* MemberMapper.getLogin */
+        SELECT memberNo, accessToken, createdDate
+        FROM tbl_login
+        WHERE #{memberNo}
     </select>
 
     <insert id="insertMember" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoUserInfo">
@@ -50,27 +35,23 @@
         VALUES (#{nickname}, #{email}, #{email}, #{role}, #{nickname}, #{profileImage}, #{thumbnailImage}, now(), now())
     </insert>
 
-    <insert id="insertUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">
-        /* MemberMapper.insertUserToken */
-        INSERT INTO tbl_repository (memberNo, accessToken, expiresIn, refreshToken, refreshTokenExpiresIn, createdDate,
-                                    updatedDate)
-        VALUES (#{memberNo}, #{accessToken}, #{expiresIn}, #{refreshToken}, #{refreshTokenExpiresIn}, now(), now())
-    </insert>
-
-    <insert id="insertDefaultAlarm" parameterType="int">
+    <insert id="insertDefaultAlarm" parameterType="Long">
         /* MemberMapper.insertDefaultAlarm */
         INSERT INTO tbl_alarmtime (memberNo, alarmTime)
         VALUES (#{memberNo}, '17:00:00')
     </insert>
 
-    <update id="updateUserToken" parameterType="co.poetrypainting.ruda.domain.kakao.KakaoToken">
-        /* MemberMapper.updateUserToken */
-        UPDATE tbl_repository
-        SET accessToken          = #{accessToken},
-            expiresIn= #{expiresIn},
-            refreshToken= #{refreshToken},
-            refreshTokenExpiresIn= #{refreshTokenExpiresIn},
-            updatedDate= now()
+    <insert id="insertLogin" parameterType="co.poetrypainting.ruda.domain.member.Login">
+        /* MemberMapper.insertLogin */
+        INSERT INTO tbl_login (memberNo, accessToken, createdDate)
+        VALUES (#{memberNo}, #{accessToken}, now())
+    </insert>
+
+    <update id="updateLogin" parameterType="co.poetrypainting.ruda.domain.member.Login">
+        /* MemberMapper.updateLogin */
+        UPDATE tbl_login
+        SET accessToken = #{accessToken},
+            createdDate = now()
         WHERE memberNo = #{memberNo}
     </update>
 </mapper>

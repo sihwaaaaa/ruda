@@ -175,7 +175,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
           </div>
         </div>
         <!-- End of Main Content -->
-        <script src="../../resources/js/ckeditor.js"></script>
+        <script src="../../../resources/js/ckeditor.js"></script>
         <script>
           ClassicEditor.create(document.querySelector("#editor"), {});
             // 정렬 순서가 변경될 때마다 페이지를 새로고침하여 정렬된 결과를 보여줌
@@ -199,7 +199,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
             var diaryNo = $(this).find(".diaryNo-input").val();
 
             // diaryNo 값을 사용하여 이동할 URL 생성
-            var url = "/diary/" + diaryNo;
+            var url = "/diary/${token}/" + diaryNo;
 
             // 생성한 URL로 이동
             window.location.href = url;

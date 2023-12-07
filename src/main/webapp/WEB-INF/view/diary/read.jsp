@@ -125,7 +125,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                       </div>
                     </div>
                     <div class="my-5 d-flex justify-content-center">
-                      <a href="/">
+                      <a href="/diary/${token}">
                         <div
                           class="btn btn-secondary mx-5"
                           style="width: 100px"
@@ -141,7 +141,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
           </div>
         </div>
         <!-- End of Main Content -->
-        <script src="../../resources/js/ckeditor.js"></script>
+        <script src="../../../resources/js/ckeditor.js"></script>
         <script>
           ClassicEditor.create(document.querySelector("#editor"), {});
         </script>

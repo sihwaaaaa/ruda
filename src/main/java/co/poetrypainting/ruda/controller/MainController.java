@@ -3,8 +3,6 @@ package co.poetrypainting.ruda.controller;
 import co.poetrypainting.ruda.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @RequiredArgsConstructor
 public class MainController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Value("${spring.security.oauth2.client.provider.kakao.authorization-uri}")
     private String AUTHORIZATION_URI;
 

@@ -7,8 +7,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 <title>루다 - 루틴다이어리</title>
 <!-- calendar css -->
-<link href="../../resources/css/fullcalendar.css" rel="stylesheet" />
-<link href="../../resources/css/calendar.css" rel="stylesheet" />
+<link href="../../../resources/css/fullcalendar.css" rel="stylesheet" />
+<link href="../../../resources/css/calendar.css" rel="stylesheet" />
 <link
   href="../../resources/css/fullcalendar.print.css"
   rel="stylesheet"
@@ -16,7 +16,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
 />
 <!-- Custom fonts for this template-->
 <link
-  href="../../resources/vendor/fontawesome-free/css/all.min.css"
+  href="../../../resources/vendor/fontawesome-free/css/all.min.css"
   rel="stylesheet"
   type="text/css"
 />
@@ -26,7 +26,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
 />
 
 <!-- Custom styles for this template-->
-<link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet" />
+<link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet" />
 <!-- 파비콘 -->
 <link
   rel="icon"

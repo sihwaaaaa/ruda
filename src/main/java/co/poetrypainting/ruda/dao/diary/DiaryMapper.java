@@ -17,7 +17,7 @@ public interface DiaryMapper {
 
     String getColorCode(Long getColorNo);
 
-    List<DiaryVo> selectDiaryList();
+    List<DiaryVo> selectDiaryList(Long memberNo);
 
     List<DiaryVo> searchDiaryListLatest(Map<String, Object> parameters);
 

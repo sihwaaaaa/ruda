@@ -65,29 +65,29 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   
       <!-- Bootstrap core JavaScript-->
-      <script src="../../resources/vendor/jquery/jquery.min.js"></script>
-      <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="../../../resources/vendor/jquery/jquery.min.js"></script>
+      <script src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   
       <!-- Core plugin JavaScript-->
-      <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
   
       <!-- Custom scripts for all pages-->
-      <script src="../../resources/img/jssb-admin-2.min.js"></script>
+      <script src="../../../resources/img/jssb-admin-2.min.js"></script>
   
       <!-- Page level plugins -->
-      <script src="../../resources/vendor/chart.js/Chart.min.js"></script>
+      <script src="../../../resources/vendor/chart.js/Chart.min.js"></script>
   
       <!-- Page level custom scripts -->
-      <script src="../../resources/img/jsdemo/chart-area-demo.js"></script>
-      <script src="../../resources/img/jsdemo/chart-pie-demo.js"></script>
+      <script src="../../../resources/img/jsdemo/chart-area-demo.js"></script>
+      <script src="../../../resources/img/jsdemo/chart-pie-demo.js"></script>
       <!-- calendar script -->
   
       <script
-        src="../../resources/vendor/calendar/jquery-ui.custom.min.js"
+        src="../../../resources/vendor/calendar/jquery-ui.custom.min.js"
         type="text/javascript"
       ></script>
       <script
-        src="../../resources/vendor/calendar/fullcalendar.js"
+        src="../../../resources/vendor/calendar/fullcalendar.js"
         type="text/javascript"
       ></script>
       <script>
@@ -122,7 +122,7 @@ function searchFunction() {
     if (SearchValue.length === 0) {
         alert("키워드를 입력해주세요.");
     } else {
-        window.location.href = "/diary/search?q=" + SearchValue;
+        window.location.href = "/diary/${token}/search?q=" + SearchValue;
     }
 }
 

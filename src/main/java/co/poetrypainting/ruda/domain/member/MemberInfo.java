@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Data
 public class MemberInfo {
-    private int memberNo;
+    private Long memberNo;
     private String name;
     private String email;
     private String password;

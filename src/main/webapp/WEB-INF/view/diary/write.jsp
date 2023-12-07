@@ -198,7 +198,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         <!-- End of Main Content -->
         <jsp:include page="../includes/footer.jsp"/>
 
-    <script src="../../resources/js/ckeditor.js"></script>
+    <script src="../../../resources/js/ckeditor.js"></script>
     <script>
       // CKEditor 인스턴스 생성
       ClassicEditor.create(document.querySelector("#editor"), {})

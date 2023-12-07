@@ -4,7 +4,7 @@
     <insert id="insert" parameterType="co.poetrypainting.ruda.domain.diary.DiaryVo">
         /* DiaryMapper.insert */
         INSERT INTO tbl_diary (weather,emotion,keyword,content,colorNo,memberNo,ownerDate)
-        VALUES (#{weather},#{emotion},#{keyword},#{content},#{colorNo},1,#{ownerDate})
+        VALUES (#{weather},#{emotion},#{keyword},#{content},#{colorNo},#{memberNo},#{ownerDate})
     </insert>
 
     <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.color.ColorDto">
@@ -33,13 +33,7 @@
         SELECT *
         FROM tbl_diary
         WHERE diaryNo > 0
-    </select>
-
-    <select id="searchDiaryList" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo">
-        /* DiaryMapper.searchDiaryList */
-        SELECT *
-        FROM tbl_diary
-        WHERE keyword like CONCAT('%', #{keyword}, '%')
+        AND memberNo = #{memberNo}
     </select>
 
     <select id="countSearchResults" resultType="int">
@@ -49,11 +43,20 @@
         WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
+    <select id="searchDiaryList" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo">
+        /* DiaryMapper.searchDiaryList */
+        SELECT *
+        FROM tbl_diary
+        WHERE keyword like CONCAT('%', #{keyword}, '%')
+        AND memberNo = #{memberNo}
+    </select>
+
     <select id="searchDiaryListLatest" resultType="co.poetrypainting.ruda.domain.diary.DiaryVo" parameterType="map">
         /* DiaryMapper.searchDiaryListLatest */
         SELECT *
         FROM tbl_diary
         WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
+        AND memberNo = #{memberNo}
         ORDER BY ownerDate DESC
         LIMIT #{offset}, #{limit}
     </select>
@@ -63,6 +66,7 @@
         SELECT *
         FROM tbl_diary
         WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
+        AND memberNo = #{memberNo}
         ORDER BY ownerDate ASC
         LIMIT #{offset}, #{limit}
     </select>
