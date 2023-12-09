@@ -89,6 +89,7 @@ public class DiaryController {
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", totalPages);
             model.addAttribute("token", token);
+            model.addAttribute("alarmTime", diaryService.getAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token))));
         }
         return "diary/search";
     }
