@@ -31,8 +31,7 @@ public class DiaryController {
     public String home(Model model, @PathVariable String token) {
         model.addAttribute("diaryList", diaryService.getDiaryList(token));
         model.addAttribute("token", token);
-        LocalTime alarmTime = diaryService.getAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token)));
-        model.addAttribute("alarmTime", alarmTime);
+        model.addAttribute("alarmTime", diaryService.getAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token))));
         return "index";
     }
 
@@ -59,8 +58,9 @@ public class DiaryController {
     public String Read(Model model, @PathVariable String token, @PathVariable Long diaryNo) {
         model.addAttribute("diary", diaryService.get(diaryNo));
         logger.info("{}", diaryService.getColorCode(diaryService.get(diaryNo).getColorNo()));
-        model.addAttribute("color", diaryService.getColorCode(diaryService.get(diaryNo).getColorNo()));
         model.addAttribute("token", token);
+        model.addAttribute("color", diaryService.getColorCode(diaryService.get(diaryNo).getColorNo()));
+        model.addAttribute("alarmTime", diaryService.getAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token))));
         return "diary/read";
     }
 
@@ -95,7 +95,7 @@ public class DiaryController {
 
     @PostMapping("/alarm")
     public String SetAlarm(@PathVariable String token, LocalTime alarmTime) {
-        diaryService.setAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token)),alarmTime);
+        diaryService.setAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token)), alarmTime);
         return String.format("redirect:/diary/%s", token);
     }
 
