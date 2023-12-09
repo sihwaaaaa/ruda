@@ -154,6 +154,7 @@ public class KakaoService {
                 logger.error(response.body());
             }
             KakaoToken kakaoToken = gson.fromJson(response.body(), KakaoToken.class);
+            kakaoToken.setRefreshToken(refreshToken);
             kakaoToken.setMemberNo(memberNo);
             kakaoMapper.updateUserToken(kakaoToken);
             return kakaoToken.getAccessToken();
