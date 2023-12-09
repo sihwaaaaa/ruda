@@ -1,15 +1,19 @@
 package co.poetrypainting.ruda.service.diary;
 
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Time;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import co.poetrypainting.ruda.config.security.JwtProvider;
 import co.poetrypainting.ruda.dao.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,8 +83,25 @@ public class DiaryService {
         return diaryMapper.countSearchDiary(keyword);
     }
 
-    public void findEmailByToken(String token) {
-        String jwt = new String(Base64.getDecoder().decode(token.getBytes()));
-        String Email = JwtProvider.GetEmail(jwt);
+    public void setAlarm(Long memberNo, LocalTime alarmTime) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("memberNo", memberNo);
+        parameters.put("alarmTime", alarmTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        try {
+            diaryMapper.setAlarm(parameters);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
+    }
+
+    public LocalTime getAlarm(Long memberNo) {
+        return dateToLocalTime(diaryMapper.getAlarm(memberNo));
+    }
+
+    private LocalTime dateToLocalTime(Date date) {
+        Instant instant = date.toInstant();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        LocalTime tmp = localDateTime.toLocalTime();
+        return LocalTime.of(tmp.getHour(), tmp.getMinute());
     }
 }

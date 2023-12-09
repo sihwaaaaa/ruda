@@ -7,6 +7,13 @@
         VALUES (#{weather},#{emotion},#{keyword},#{content},#{colorNo},#{memberNo},#{ownerDate})
     </insert>
 
+    <update id="setAlarm" parameterType="map">
+        /* DiaryMapper.setAlarm */
+        UPDATE tbl_alarmtime
+        SET alarmTime = #{alarmTime}
+        WHERE memberNo = #{memberNo}
+    </update>
+
     <select id="selectColorDto" resultType="co.poetrypainting.ruda.domain.color.ColorDto">
         /* DiaryMapper.selectColorDto */
         SELECT *
@@ -72,8 +79,16 @@
     </select>
 
     <select id="countSearchDiary" resultType="int" parameterType="String">
+        /* DiaryMapper.countSearchDiary */
         SELECT COUNT(*)
         FROM tbl_diary
         WHERE keyword LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="getAlarm" resultType="date">
+        /* DiaryMapper.getAlarm */
+        SELECT alarmTime
+        FROM tbl_alarmtime
+        WHERE memberNo = #{memberNo}
     </select>
 </mapper>

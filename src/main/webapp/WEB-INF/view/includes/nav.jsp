@@ -78,6 +78,13 @@
         </div>
     </div>
 
+    <!-- Logout Button -->
+    <div class="-none d-md-inline" style="margin: 5%;">
+        <div class="d-flex justify-content-center">
+            <span class="pl-3">알림시간: ${alarmTime}</span>
+        </div>
+    </div>
+
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="-none d-md-inline" style="margin: 5%;">
         <div class="d-flex justify-content-center">

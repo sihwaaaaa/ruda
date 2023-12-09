@@ -1,5 +1,6 @@
 package co.poetrypainting.ruda.dao.diary;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +25,6 @@ public interface DiaryMapper {
     List<DiaryVo> searchDiaryListOldest(Map<String, Object> parameters);
 
     int countSearchDiary(String keyword);
+    Date getAlarm(Long memberNo) ;
+    void setAlarm(Map<String, Object> parameters) throws Exception;
 }

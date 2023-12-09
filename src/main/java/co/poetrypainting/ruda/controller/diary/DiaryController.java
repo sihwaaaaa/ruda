@@ -4,21 +4,19 @@ import co.poetrypainting.ruda.config.security.JwtProvider;
 import co.poetrypainting.ruda.service.diary.DiaryService;
 
 import java.sql.Date;
+import java.time.LocalTime;
 import java.util.List;
 
 import co.poetrypainting.ruda.service.member.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import co.poetrypainting.ruda.domain.diary.DiaryVo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -33,6 +31,8 @@ public class DiaryController {
     public String home(Model model, @PathVariable String token) {
         model.addAttribute("diaryList", diaryService.getDiaryList(token));
         model.addAttribute("token", token);
+        LocalTime alarmTime = diaryService.getAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token)));
+        model.addAttribute("alarmTime", alarmTime);
         return "index";
     }
 
@@ -91,6 +91,12 @@ public class DiaryController {
             model.addAttribute("token", token);
         }
         return "diary/search";
+    }
+
+    @PostMapping("/alarm")
+    public String SetAlarm(@PathVariable String token, LocalTime alarmTime) {
+        diaryService.setAlarm(memberService.GetMemberNo(JwtProvider.GetEmail(token)),alarmTime);
+        return String.format("redirect:/diary/%s", token);
     }
 
     // @GetMapping("{bno}")
